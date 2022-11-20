@@ -4,6 +4,7 @@
 #include <cmath>
 using namespace std;
 
+// Funciones y metodos
 void formulaGral();
 
 int main()
@@ -18,6 +19,7 @@ int main()
     cout << "[2] " << endl;
     cin >> choice;
 
+    // Switch para escoger el procedimiento a utilizar
     switch (choice)
     {
     case 1:
@@ -32,6 +34,7 @@ int main()
     return 0;
 }
 
+// Formula General
 void formulaGral(){
     double termCuadratico=0, termLineal=0, termIndepend=0, res1=0, res2=0;
 
@@ -42,10 +45,14 @@ void formulaGral(){
     cout << "Introduce el coeficiente del termino independiente" << endl;
     cin >> termIndepend;
     
+    // Discriminante sumado
     res1=((-1*termLineal)+(sqrt((pow(termLineal, 2))-(4*termCuadratico*termIndepend))))/(2*termCuadratico);
+    // Discriminante restado
     res2=((-1*termLineal)-(sqrt((pow(termLineal, 2))-(4*termCuadratico*termIndepend))))/(2*termCuadratico);
 
+    // X sumado
     cout << "x+ = " << res1 << endl;
+    // X restado
     cout << "x- = " << res2 << endl;
 
 }
