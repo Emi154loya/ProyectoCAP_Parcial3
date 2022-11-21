@@ -1,30 +1,62 @@
 #include <iostream>
 #include <thread>
 #include <stdexcept>
+#define _USE_MATH_DEFINES
 #include <cmath>
+
 using namespace std;
 
-// Funciones y metodos
+// Funciones y procedimientos
+// Algebra
 void formulaGral();
+// Geometria
+void volumenCubo();
 
 int main()
 {
     int choice=0;
+    int choice2=0;
 
     cout << "================================================================" << endl;
     cout << "============ Bienvenido a la Calculadora Formularia ============" << endl;
     cout << "================================================================" << endl;
     cout << "Escoge una opcion del menu" << endl;
-    cout << "[1] Formula general" << endl;
-    cout << "[2] " << endl;
+    cout << "[1] Algebra" << endl;
+    cout << "[2] Geometria" << endl;
     cin >> choice;
 
-    // Switch para escoger el procedimiento a utilizar
+    // Switch para desplegar segundo menu
     switch (choice)
     {
     case 1:
-        formulaGral();
+        cout << "====== Formulas de algebra ======" << endl;
+        cout << "[1] Formula general" << endl;
+        cin >> choice2;
+        // Switch para utilizar el procedimiento escogido
+        switch (choice2)
+        {
+        case 1:
+            formulaGral();
+            break;
+        
+        default:
+            break;
+        }
         break;
+
+    case 2:
+        cout << "====== Formulas de geometria ======" << endl;
+        cout << "[1] Volumen de un cono" << endl;
+        cin >> choice2;
+        switch (choice2)
+        {
+        case 1:
+            volumenCubo();
+            break;
+        
+        default:
+            break;
+        }
 
     default:
         break;
@@ -33,6 +65,12 @@ int main()
 
     return 0;
 }
+
+/*
+================
+****ALGEBRA*****
+================
+*/
 
 // Formula General
 void formulaGral(){
@@ -54,5 +92,23 @@ void formulaGral(){
     cout << "x+ = " << res1 << endl;
     // X restado
     cout << "x- = " << res2 << endl;
+}
 
+/*
+================
+***GEOMETRIA****
+================
+*/
+
+// Volumen de un cubo
+void volumenCubo(){
+    double radioBase=0, altura=0, volumen=0;
+
+    cout << "Introduce el radio de la base" << endl;
+    cin >> radioBase;
+    cout << "Introduce la altura" << endl;
+    cin >> altura;
+    volumen=((M_PI*(pow(radioBase, 2)*altura))/3);
+
+    cout << "El volumen es: " << volumen << endl;
 }
