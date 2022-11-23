@@ -48,6 +48,7 @@ int main()
         cout << "====== Formulas de geometria ======" << endl;
         cout << "[1] Volumen de un cono" << endl;
         cin >> choice2;
+        // Switch para utilizar el procedimiento escogido
         switch (choice2)
         {
         case 1:
