@@ -1,3 +1,12 @@
+/*
+    Equipo System32
+    Integrantes:
+        @Victor Daniel Chávez Medina
+        @Erick Fernando Nevarez Avila
+        @Emiliano Loya Flores
+        @Luis Alan Martinez Garcia
+    "No hemos brindado ni recibido asistencia no autorizada en este proyecto."
+*/
 #include <iostream>
 #include <thread>
 #include <stdexcept>
