@@ -17,53 +17,61 @@ int main()
     int choice=0;
     int choice2=0;
 
-    cout << "================================================================" << endl;
-    cout << "============ Bienvenido a la Calculadora Formularia ============" << endl;
-    cout << "================================================================" << endl;
-    cout << "Escoge una opcion del menu" << endl;
-    cout << "[1] Algebra" << endl;
-    cout << "[2] Geometria" << endl;
-    cin >> choice;
-
-    // Switch para desplegar segundo menu
-    switch (choice)
-    {
-    case 1:
-        cout << "====== Formulas de algebra ======" << endl;
-        cout << "[1] Formula general" << endl;
-        cin >> choice2;
-        // Switch para utilizar el procedimiento escogido
-        switch (choice2)
-        {
-        case 1:
-            formulaGral();
-            break;
-        
-        default:
-            break;
-        }
-        break;
-
-    case 2:
-        cout << "====== Formulas de geometria ======" << endl;
-        cout << "[1] Volumen de un cono" << endl;
-        cin >> choice2;
-        // Switch para utilizar el procedimiento escogido
-        switch (choice2)
-        {
-        case 1:
-            volumenCubo();
-            break;
-        
-        default:
-            break;
-        }
-
-    default:
-        break;
-    }
     
+    // do while para ciclar el menu
+    do
+    {
+        cout << "================================================================" << endl;
+        cout << "============ Bienvenido a la Calculadora Formularia ============" << endl;
+        cout << "================================================================" << endl;
+        cout << "Escoge una opcion del menu" << endl;
+        cout << "[1] Algebra" << endl;
+        cout << "[2] Geometria" << endl;
+        cout << "[3] Salir" << endl;
+        cin >> choice;
 
+        // Switch para desplegar segundo menu
+        switch (choice)
+        {
+        case 1:
+            cout << "====== Formulas de algebra ======" << endl;
+            cout << "[1] Formula general" << endl;
+            cin >> choice2;
+            // Switch para utilizar el procedimiento escogido
+            switch (choice2)
+            {
+            case 1:
+                formulaGral();
+                break;
+            
+            default:
+                break;
+            }
+            break;
+
+        case 2:
+            cout << "====== Formulas de geometria ======" << endl;
+            cout << "[1] Volumen de un cono" << endl;
+            cin >> choice2;
+            // Switch para utilizar el procedimiento escogido
+            switch (choice2)
+            {
+            case 1:
+                volumenCubo();
+                break;
+            
+            default:
+                break;
+            }
+
+        case 3:            
+            break;
+
+        default:
+            break;
+        }
+    } while (choice!=3);
+    
     return 0;
 }
 
