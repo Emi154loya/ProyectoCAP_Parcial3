@@ -19,7 +19,7 @@ using namespace std;
 // Algebra
 void formulaGral();
 // Geometria
-void volumenCubo();
+void volumenCono();
 
 int main()
 {
@@ -50,7 +50,15 @@ int main()
             switch (choice2)
             {
             case 1:
-                formulaGral();
+                try
+                {
+                    formulaGral();
+                }
+                catch(invalid_argument &e)
+                {
+                    cout << e.what() << endl;
+                }
+                
                 break;
             
             default:
@@ -66,7 +74,7 @@ int main()
             switch (choice2)
             {
             case 1:
-                volumenCubo();
+                volumenCono();
                 break;
             
             default:
@@ -92,7 +100,7 @@ int main()
 
 // Formula General
 void formulaGral(){
-    double termCuadratico=0, termLineal=0, termIndepend=0, res1=0, res2=0;
+    double termCuadratico=0, termLineal=0, termIndepend=0, res1=0, res2=0, discriminante=0;
 
     cout << "Introduce el coeficiente del termino cuadratico" << endl;
     cin >> termCuadratico;
@@ -101,10 +109,17 @@ void formulaGral(){
     cout << "Introduce el coeficiente del termino independiente" << endl;
     cin >> termIndepend;
     
+    discriminante=(pow(termLineal, 2))-(4*termCuadratico*termIndepend);
+
+    if (discriminante<0)
+    {
+        throw invalid_argument("!!! ERROR: El discriminante es negativo, no se puede resolver la ecuacion !!!");
+    }
+    
     // Discriminante sumado
-    res1=((-1*termLineal)+(sqrt((pow(termLineal, 2))-(4*termCuadratico*termIndepend))))/(2*termCuadratico);
+    res1=((-1*termLineal)+(sqrt(discriminante)))/(2*termCuadratico);
     // Discriminante restado
-    res2=((-1*termLineal)-(sqrt((pow(termLineal, 2))-(4*termCuadratico*termIndepend))))/(2*termCuadratico);
+    res2=((-1*termLineal)-(sqrt(discriminante)))/(2*termCuadratico);
 
     // X sumado
     cout << "x+ = " << res1 << endl;
@@ -118,8 +133,8 @@ void formulaGral(){
 ================
 */
 
-// Volumen de un cubo
-void volumenCubo(){
+// Volumen de un cono
+void volumenCono(){
     double radioBase=0, altura=0, volumen=0;
 
     cout << "Introduce el radio de la base" << endl;
