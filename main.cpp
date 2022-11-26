@@ -20,6 +20,92 @@ using namespace std;
 void formulaGral();
 // Geometria
 void volumenCono();
+// Aritmetica
+void aritmeticaFracciones();
+
+struct Fraccion
+{
+    int numerador=0, denominador=0;
+
+    Fraccion(int N, int D){
+        numerador=N;
+        denominador=D;
+    }
+
+    Fraccion operator+(Fraccion a){
+        Fraccion resultado(0, 0);
+        if (denominador==0 || a.denominador==0)
+        {
+            throw invalid_argument("!!! ERROR: El denominador no puede ser 0 !!!");
+        }
+        if (denominador == a.denominador)
+        {
+            resultado.numerador = numerador+a.numerador;
+            resultado.denominador = denominador;
+        }
+        else
+        {
+            resultado.numerador = (numerador * a.denominador) + (a.numerador * denominador);
+			resultado.denominador = denominador * a.denominador;
+        }
+        return resultado;
+    }
+
+    Fraccion operator-(Fraccion a){
+        Fraccion resultado(0, 0);
+        if (denominador==0 || a.denominador==0)
+        {
+            throw invalid_argument("!!! ERROR: El denominador no puede ser 0 !!!");
+        }
+        if (denominador == a.denominador)
+        {
+            resultado.numerador = numerador-a.numerador;
+            resultado.denominador = denominador;
+        }
+        else
+        {
+            resultado.numerador = (numerador * a.denominador) - (a.numerador * denominador);
+			resultado.denominador = denominador * a.denominador;
+        }
+        return resultado;
+    }
+
+    Fraccion operator/(Fraccion a){
+        Fraccion resultado(0, 0);
+
+        resultado.numerador = numerador * a.denominador;
+		resultado.denominador = denominador * a.numerador;
+
+        if (resultado.denominador==0)
+        {
+            throw invalid_argument("!!! ERROR: El denominador resultante es cero !!!");
+        }
+
+        return resultado;
+    }
+
+    Fraccion operator*(Fraccion a){
+        Fraccion resultado(0, 0);
+        if (denominador==0 || a.denominador==0)
+        {
+            throw invalid_argument("!!! ERROR: El denominador no puede ser 0 !!!");
+        }
+
+        resultado.numerador = numerador * a.numerador;
+		resultado.denominador = denominador * a.denominador;
+
+        return resultado;
+    }
+
+    //Funciones friend para sobrecargar los operadores stream    
+    friend std::ostream& operator <<(std::ostream &os,Fraccion &obj){
+        os<<obj.numerador<<" / "<<obj.denominador<<endl;
+        return os;
+    }
+    void print() { cout << numerador << " / "<<denominador<< endl; }
+
+};
+
 
 int main()
 {
@@ -36,7 +122,8 @@ int main()
         cout << "Escoge una opcion del menu" << endl;
         cout << "[1] Algebra" << endl;
         cout << "[2] Geometria" << endl;
-        cout << "[3] Salir" << endl;
+        cout << "[3] Aritmetica" << endl;
+        cout << "[4] Salir" << endl;
         cin >> choice;
 
         // Switch para desplegar segundo menu
@@ -80,14 +167,28 @@ int main()
             default:
                 break;
             }
+            break;
 
-        case 3:            
+        case 3:
+            cout << "====== Formulas de Aritmetica ======" << endl;
+            cout << "[1] Aritmetica de dos fracciones" << endl;
+            cin >> choice2;
+            // Switch para utilizar el procedimiento escogido
+            switch (choice2)
+            {
+            case 1:
+                aritmeticaFracciones();
+                break;
+            
+            default:
+                break;
+            }
             break;
 
         default:
             break;
         }
-    } while (choice!=3);
+    } while (choice!=4);
     
     return 0;
 }
@@ -128,9 +229,9 @@ void formulaGral(){
 }
 
 /*
-================
-***GEOMETRIA****
-================
+===============
+***GEOMETRIA***
+===============
 */
 
 // Volumen de un cono
@@ -144,4 +245,33 @@ void volumenCono(){
     volumen=((M_PI*(pow(radioBase, 2)*altura))/3);
 
     cout << "El volumen es: " << volumen << endl;
+}
+
+/*
+================
+***ARITMETICA***
+================
+*/
+
+// Aritmetica de dos fracciones
+void aritmeticaFracciones(){
+    Fraccion fraccionA(0,0), fraccionB(0,0), resultado(0,0);
+
+    cout << "Introduce el numerador de tu primera fraccion: ";
+    cin >> fraccionA.numerador;
+    cout << "Introduce el denominador de tu primera fraccion: ";
+    cin >> fraccionA.denominador;
+    cout << "Introduce el numerador de tu segunda fraccion: ";
+    cin >> fraccionB.numerador;
+    cout << "Introduce el denominador de tu segunda fraccion: ";
+    cin >> fraccionB.denominador;
+
+    resultado=fraccionA+fraccionB;
+    cout << "La suma es: " << resultado << endl;
+    resultado=fraccionA-fraccionB;
+    cout << "La resta es: " << resultado << endl;
+    resultado=fraccionA/fraccionB;
+    cout << "La division es: " << resultado << endl;
+    resultado=fraccionA*fraccionB;
+    cout << "La multiplicacion es: " << resultado << endl;
 }
