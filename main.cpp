@@ -20,6 +20,13 @@ using namespace std;
 void formulaGral();
 // Geometria
 void volumenCono();
+void volumenTroncoCono();
+void volumenEsfera();
+void volumenPiramideCuadrada();
+void volumenTetraedroRegular();
+void volumenTetraedroBaseRegular();
+void volumenCasqueteApotema();
+void volumenCasqueteEsfera();
 // Aritmetica
 void aritmeticaFracciones();
 
@@ -154,16 +161,82 @@ int main()
             break;
 
         case 2:
-            cout << "====== Formulas de geometria ======" << endl;
+           cout << "====== Formulas de geometria ======" << endl;
             cout << "[1] Volumen de un cono" << endl;
+            cout << "[2] Volumen de una esfera" << endl;
+            cout << "[3] Volumen de una piramide cuadrada" << endl;
+            cout << "[4] Volumen de un Tetraedro (Piramide triangular)" << endl;
+            cout << "[5] Volumen de un Casquete" << endl;
             cin >> choice2;
             // Switch para utilizar el procedimiento escogido
             switch (choice2)
             {
             case 1:
-                volumenCono();
+                // Switch para desplegar menu Cono
+                cout << "====== Formula del cono ======" << endl;
+                cout << "[1] Volumen cono completo" << endl;
+                cout << "[2] Volumen tronco de cono" << endl;
+                cin >> choice3;
+                // Switch para utilizar el procedimiento escogido
+                switch (choice3)
+                {
+                case 1:
+                    volumenCono();
+                    break;
+                case 2:
+                    volumenTroncoCono();
+                    break;
+                default:
+                    break;
+                }
                 break;
-            
+            case 2:
+                volumenEsfera();
+                break;
+            case 3:
+                volumenPiramideCuadrada();
+                break;
+            case 4:
+                // Switch para desplegar menu Tetraedro
+                cout << "====== Tipos de Tetraedro ======" << endl;
+                cout << "[1] Volumen regular (caras iguales)" << endl;
+                cout << "[2] Volumen con base regular" << endl;
+                cin >> choice3;
+                // Switch para utilizar el procedimiento escogido
+                switch (choice3)
+                {
+                case 1:
+                    volumenTetraedroRegular();
+                    break;
+                case 2:
+                    volumenTetraedroBaseRegular();
+                    break;
+
+                default:
+                    break;
+                }
+                break;
+            case 5:
+                // Switch para desplegar menu Casquetes
+                cout << "====== Tipos de Casquetes ======" << endl;
+                cout << "[1] Volumen a partir del apotema (radio de la base del casquete)" << endl;
+                cout << "[2] Volumen a partir del radio de la esfera" << endl;
+                cin >> choice3;
+                // Switch para utilizar el procedimiento escogido
+                switch (choice3)
+                {
+                case 1:
+                    volumenCasqueteApotema();
+                    break;
+                case 2:
+                    volumenCasqueteEsfera();
+                    break;
+
+                default:
+                    break;
+                }
+                break;
+
             default:
                 break;
             }
@@ -245,6 +318,96 @@ void volumenCono(){
     volumen=((M_PI*(pow(radioBase, 2)*altura))/3);
 
     cout << "El volumen es: " << volumen << endl;
+}
+
+//Volumen de un tronco de cono
+void volumenTroncoCono(){
+    double radioBase=0, radioBaseMenor=0, altura=0, volumen=0;
+
+    cout << "Introduce el radio mayor del cono" << endl;
+    cin >> radioBase;
+    cout << "Introduce el radio menor del cono" << endl;
+    cin >> radioBaseMenor;
+    cout << "Introduce la altura del cono" << endl;
+    cin >> altura;
+    volumen=((altura*M_PI*((pow(radioBase, 2))+(pow(radioBaseMenor, 2))+(radioBase*radioBaseMenor)))/3);
+
+    cout << "El volumen es: " << volumen << endl<< endl;
+}
+
+// Volumen de una esfera
+void volumenEsfera(){
+    double radio=0, volumen=0;
+
+    cout << "Introduce el radio de la esfera" << endl;
+    cin >> radio;
+    volumen=((4*M_PI*(pow(radio, 3)))/3);
+
+    cout << "El volumen es: " << volumen << endl<< endl;
+}
+
+// Volumen de una Piramide Cuadrada
+void volumenPiramideCuadrada(){
+    double lado=0, altura=0, volumen=0;
+
+    cout << "Introduce el lado de la base" << endl;
+    cin >> lado;
+    cout << "Introduce la altura" << endl;
+    cin >> altura;
+    volumen=(((pow(lado, 2))*altura)/3);
+
+    cout << "El volumen es: " << volumen << endl<< endl;
+}
+
+// Volumen de un Tetraedro Regular
+void volumenTetraedroRegular(){
+    double lado=0, volumen=0;
+
+    cout << "Introduce el lado de la base" << endl;
+    cin >> lado;
+    volumen=((pow(lado,3))*((sqrt(2))/12));
+
+    cout << "El volumen es: " << volumen << endl<< endl;
+}
+
+// Volumen de un Tetraedro con base Regular
+void volumenTetraedroBaseRegular(){
+    double lado=0, altura=0, volumen=0;
+
+    cout << "Introduce el lado de la base" << endl;
+    cin >> lado;
+    cout << "Introduce la altura del tetraedro" << endl;
+    cin >> altura;
+
+    volumen=(altura*(pow(lado,2))*((sqrt(3))/12));
+
+    cout << "El volumen es: " << volumen << endl<< endl;
+}
+
+// Volumen de un casquete usando apotema
+void volumenCasqueteApotema(){
+    double altura=0, apotema=0, volumen=0;
+
+    cout << "Introduce el radio de la base del casquete (apotema)" << endl;
+    cin >> apotema;
+    cout << "Introduce la altura del casquete" << endl;
+    cin >> altura;
+    volumen=(( (M_PI*altura) * ((3*(pow(apotema, 2)))+(pow(altura,2))))/6);
+
+    cout << "El volumen es: " << volumen << endl<< endl;
+}
+
+//Volumen de un casquete desde el radio de la esfera
+void volumenCasqueteEsfera(){
+    double altura=0, radio=0, volumen=0;
+
+    cout << "Introduce el radio de la esfera" << endl;
+    cin >> radio;
+    cout << "Introduce la altura del casquete" << endl;
+    cin >> altura;
+    volumen=(((M_PI*(pow(altura,2))) * ((3*radio)-altura))/3);
+
+    cout << "El volumen es: " << volumen << endl<< endl;
 }
 
 /*
