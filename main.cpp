@@ -13,6 +13,7 @@
 #define _USE_MATH_DEFINES
 #include <cmath>
 #include <math.h>
+#include <vector>
 
 using namespace std;
 
@@ -50,6 +51,8 @@ void energiaCinetica();
 void energiaPotencial();
 void energiaPotencialElastica();
 void potencia();
+// Metodos Numericos
+void derivacionFuncionEvaluada();
 
 void velocidadX_TiroParabolico(double &velocidadX, double velocidadI, double angulo)
 {
@@ -167,7 +170,8 @@ int main()
         cout << "[2] Geometria" << endl;
         cout << "[3] Aritmetica" << endl;
         cout << "[4] Fisica" << endl;
-        cout << "[5] Salir" << endl;
+        cout << "[5] Metodos Numericos" << endl;
+        cout << "[6] Salir" << endl;
         cin >> choice;
 
         // Switch para desplegar segundo menu
@@ -402,10 +406,24 @@ int main()
             }
             break;
 
+        case 5:
+            cout << "====== Metodos Numericos ======" << endl;
+            cout << "[1]  Derivacion de una funcion(evaluada)" << endl;
+            cin >> choice2;
+            switch (choice2)
+            {
+            case 1:
+                derivacionFuncionEvaluada();
+                break;
+            default:
+                break;
+            }
+            break;
+
         default:
             break;
         }
-    } while (choice != 5);
+    } while (choice != 6);
 
     return 0;
 }
@@ -858,4 +876,115 @@ void potencia()
 
     potencia = trabajo / tiempo;
     cout << "La potencia es: " << potencia << " Watts" << endl;
+}
+
+/*
+=======================
+***METODOS NUMERICOS***
+=======================
+*/
+
+void derivacionFuncionEvaluada(){
+
+    int grado=0;
+
+    cout << "Vamos a introducir tu funcion, por pasos" << endl;
+    cout << "Introduce el grado de tu funcion: ";
+    cin >> grado;
+    
+    vector<vector<double>> incognitasYSusCoeficientes;
+    
+    for (int i = 0; i<grado+1; i++)
+    {
+        cout << "Introduce cuantas incognitas de grado [" << i << "] tienes" << endl;
+        double temp=0;
+        cin >> temp;
+        
+        vector<double> vectortemp;
+        vectortemp.clear();
+
+        cout << "Introduce los coeficientes de tus incognitas de grado [" << i << "] que tienes" << endl;
+        for (int y = 0; y<temp; y++)
+        {
+            double coeficientetemp=0;
+            cout << "Incognita [" << y+1 << "]: ";
+            cin >> coeficientetemp;
+            vectortemp.push_back(coeficientetemp);
+        }
+        incognitasYSusCoeficientes.push_back(vectortemp);
+    }
+
+    /*
+    cout << incognitasYSusCoeficientes.size() << endl;
+    cout << incognitasYSusCoeficientes.at(0).size() << endl;
+    cout << incognitasYSusCoeficientes.at(1).size() << endl;
+    cout << incognitasYSusCoeficientes.at(2).size() << endl;
+    cout << "==========" << endl;
+
+    cout << incognitasYSusCoeficientes.at(0).at(0) << endl;
+    cout << incognitasYSusCoeficientes.at(1).at(0) << endl;
+    cout << incognitasYSusCoeficientes.at(1).at(1) << endl;
+    cout << incognitasYSusCoeficientes.at(2).at(0) << endl;
+    cout << incognitasYSusCoeficientes.at(2).at(1) << endl;
+    cout << incognitasYSusCoeficientes.at(2).at(2) << endl;
+    cout << "==========" << endl;
+    */
+
+    cout << "Esta seria tu funcion: ";
+    for (int i = incognitasYSusCoeficientes.size()-1; i>=0; i--)
+    {
+        for (int y = 0; y<incognitasYSusCoeficientes.at(i).size(); y++)
+        {
+            
+
+            if (incognitasYSusCoeficientes.at(i).at(y)<0)
+            {
+                cout << incognitasYSusCoeficientes.at(i).at(y) << "(x^" << i << ")";
+            }
+            else{
+                cout << "+" << incognitasYSusCoeficientes.at(i).at(y) << "(x^" << i << ")";
+            }
+            
+            
+            
+        }
+    }
+    cout << endl;
+
+
+    double hTamañodepaso=0;
+    double xI=0, xIMenosUno=0, xIMenosDos=0, xIMasUno=0, xIMasDos=0;
+    double resultadoDerivada=0;
+
+    double xIEvaluado=0, xIMenosUnoEvaluado=0, xIMenosDosEvaluado=0, xIMasUnoEvaluado=0, xIMasDosEvaluado=0;
+
+    cout << "=========" << endl;
+    cout << "Centradas" << endl;
+    cout << "=========" << endl;
+    cout << "Introduce el valor en el quieres evaluar la derivada: ";
+    cin >> xI;
+    cout << "Introduce el tamaño de paso: ";
+    cin >> hTamañodepaso;
+
+    xIMenosDos=(xI-(hTamañodepaso*2));
+    xIMenosUno=(xI-(hTamañodepaso*1));
+    xIMasUno=(xI+(hTamañodepaso*1));
+    xIMasDos=(xI+(hTamañodepaso*2));
+
+    for (int i = incognitasYSusCoeficientes.size()-1; i>=0; i--)
+    {
+        for (int y = 0; y<incognitasYSusCoeficientes.at(i).size(); y++)
+        {
+            
+            xIMenosUnoEvaluado+=((incognitasYSusCoeficientes.at(i).at(y))*(pow(xIMenosUno, i)));
+            xIMenosDosEvaluado+=((incognitasYSusCoeficientes.at(i).at(y))*(pow(xIMenosDos, i)));
+            xIMasUnoEvaluado+=((incognitasYSusCoeficientes.at(i).at(y))*(pow(xIMasUno, i)));
+            xIMasDosEvaluado+=((incognitasYSusCoeficientes.at(i).at(y))*(pow(xIMasDos, i)));
+            
+        }
+    }
+
+    resultadoDerivada=(-(xIMasDosEvaluado)+(8*xIMasUnoEvaluado)-(8*xIMenosUnoEvaluado)+(xIMenosDosEvaluado)) / (12*hTamañodepaso);
+
+    cout << "El resultado de la derivada es: " << resultadoDerivada << endl;
 }
