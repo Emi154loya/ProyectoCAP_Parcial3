@@ -12,6 +12,7 @@
 #include <stdexcept>
 #define _USE_MATH_DEFINES
 #include <cmath>
+#include <math.h>
 
 using namespace std;
 
@@ -36,7 +37,10 @@ void velocidadMovimientoCircularUniforme();
 void velocidadAngularMovimientoCircularUniforme();
 void periodoMovimientoCircularUniforme();
 void aceleracionCentripetaMovimientoCircularUniforme();
-void tiroParabolico();
+void velocidadesXY_TiroParabolico();
+void velocidadInicialY_TiroParabolico();
+void alturaMaximaTiroParabolico();
+void alcanceTiroParabolico();
 void fuerza();
 void peso();
 void friccion();
@@ -46,6 +50,17 @@ void energiaCinetica();
 void energiaPotencial();
 void energiaPotencialElastica();
 void potencia();
+
+void velocidadX_TiroParabolico(double &velocidadX, double velocidadI, double angulo)
+{
+    velocidadX = velocidadI * cos(angulo);
+}
+void velocidadY_TiroParabolico(double &velocidadY, double velocidadI, double angulo, double aceleracion, double tiempo)
+{
+    double velocidadIY = 0;
+    velocidadIY = velocidadI * sin(angulo);
+    velocidadY = velocidadIY + (aceleracion * tiempo);
+}
 
 struct Fraccion
 {
@@ -329,7 +344,31 @@ int main()
                 }
                 break;
             case 4:
-                tiroParabolico();
+                cout << "====== Tiro Parabolico ======" << endl;
+                cout << "[1] Velocidad en X y Y" << endl;
+                cout << "[2] Velocidad inicial en Y" << endl;
+                cout << "[3] Altura maxima" << endl;
+                cout << "[4] Alcance" << endl;
+                cin >> choice3;
+
+                switch (choice3)
+                {
+                case 1:
+                    velocidadesXY_TiroParabolico();
+                    break;
+                case 2:
+                    velocidadInicialY_TiroParabolico();
+                    break;
+                case 3:
+                    alturaMaximaTiroParabolico();
+                    break;
+                case 4:
+                    alcanceTiroParabolico();
+                    break;
+
+                default:
+                    break;
+                }
                 break;
             case 5:
                 fuerza();
@@ -580,7 +619,7 @@ void movimientoRectilineoUniforme()
     cin >> tiempo;
 
     posicionF = posicionI + (velocidad * tiempo);
-    cout << "La posicion final es: " << posicionF << "m" << endl;
+    cout << "La posicion final es: " << posicionF << " m" << endl;
 }
 
 void movimientoRectilineoUniformementeAcelerado()
@@ -597,49 +636,226 @@ void movimientoRectilineoUniformementeAcelerado()
 
     posicionF = posicionI + (velocidadI * tiempo) + ((aceleracion * pow(tiempo, 2)) / 2);
     velocidadF = velocidadI + (aceleracion * tiempo);
-    cout << "La posicion final es: " << posicionF << "m" << endl;
-    cout << "La velocidad final es: " << velocidadF << "m/s" << endl;
+    cout << "La posicion final es: " << posicionF << " m" << endl;
+    cout << "La velocidad final es: " << velocidadF << " m/s" << endl;
 }
 
 void velocidadMovimientoCircularUniforme()
 {
+    double velocidad = 0, velocidadAngular = 0, radioCurvatura = 0;
+    cout << "Introduce la velocidad angular (en rad/s): ";
+    cin >> velocidadAngular;
+    cout << "Introduce el radio de curvatura (en m): ";
+    cin >> radioCurvatura;
+
+    velocidad = (velocidadAngular * radioCurvatura);
+    cout << "La velocidad es: " << velocidad << " m/s" << endl;
 }
+
 void velocidadAngularMovimientoCircularUniforme()
 {
+    double velocidadAngular = 0, frecuencia = 0;
+    cout << "Introduce la frecuencia (en Hz): ";
+    cin >> frecuencia;
+
+    velocidadAngular = ((2 * M_PI) * frecuencia);
+    cout << "La velocidad angular es: " << velocidadAngular << " m/s" << endl;
 }
+
 void periodoMovimientoCircularUniforme()
 {
+    double periodo = 0, frecuencia = 0;
+    cout << "Introduce la frecuencia (en Hz): ";
+    cin >> frecuencia;
+
+    periodo = 1 / frecuencia;
+    cout << "El periodo es: " << periodo << " s" << endl;
 }
+
 void aceleracionCentripetaMovimientoCircularUniforme()
 {
+    double aceleracionCentripeta = 0, velocidad = 0, radio = 0;
+    cout << "Introduce la velocidad (en m/s): ";
+    cin >> velocidad;
+    cout << "Introduce el radio de la curvatura (en m): ";
+    cin >> radio;
+
+    aceleracionCentripeta = (pow(velocidad, 2)) / radio;
+    cout << "La aceleracion centripeta es: " << aceleracionCentripeta << " m/s^2" << endl;
 }
-void tiroParabolico()
+
+void velocidadesXY_TiroParabolico()
 {
+    double velocidadX = 0, velocidadY = 0, velocidadI = 0, angulo = 0, anguloRad = 0, aceleracion = 0, tiempo = 0;
+    cout << "Introduce la velocidad inicial (en m/s): ";
+    cin >> velocidadI;
+    cout << "Introduce el angulo: ";
+    cin >> angulo;
+    cout << "introduce la aceleracion (en m/s^2): ";
+    cin >> aceleracion;
+    cout << "Introduce el intervalo de tiempo (en s): ";
+    cin >> tiempo;
+
+    anguloRad = (angulo * M_PI) / 180;
+
+    thread velocidadEjeX(velocidadX_TiroParabolico, ref(velocidadX), velocidadI, anguloRad);
+    thread velocidadEjeY(velocidadY_TiroParabolico, ref(velocidadY), velocidadI, anguloRad, aceleracion, tiempo);
+
+    velocidadEjeX.join();
+    velocidadEjeY.join();
+
+    cout << "La velocidad en el eje X es: " << velocidadX << " m/s" << endl;
+    cout << "La velocidad en el eje Y es: " << velocidadY << " m/s" << endl;
 }
+
+void velocidadInicialY_TiroParabolico()
+{
+    double velocidadIY = 0, velocidadI = 0, angulo = 0, anguloRad = 0;
+    cout << "Introduce la velocidad inicial (en m/s): ";
+    cin >> velocidadI;
+    cout << "Introduce el angulo: ";
+    cin >> angulo;
+
+    anguloRad = (angulo * M_PI) / 180;
+
+    velocidadIY = velocidadI * sin(anguloRad);
+    cout << "La velocidad inicial en el eje Y es: " << velocidadIY << " m/s" << endl;
+}
+
+void alturaMaximaTiroParabolico()
+{
+    double alturaMaxima = 0, velocidadI = 0, angulo = 0, anguloRad = 0;
+    cout << "Introduce la velocidad inicial (en m/s): ";
+    cin >> velocidadI;
+    cout << "Introduce el angulo de la direccion de lanzamiento: ";
+    cin >> angulo;
+
+    anguloRad = (angulo * M_PI) / 180;
+
+    alturaMaxima = ((pow(velocidadI, 2)) * (pow(sin(anguloRad), 2))) / (2 * 9.81);
+    cout << "La altura maxima es: " << alturaMaxima << " m" << endl;
+}
+
+void alcanceTiroParabolico()
+{
+    double alturaMaxima = 0, velocidadI = 0, angulo = 0, anguloRad = 0;
+    cout << "Introduce la velocidad inicial (en m/s): ";
+    cin >> velocidadI;
+    cout << "Introduce el angulo de la direccion de lanzamiento: ";
+    cin >> angulo;
+
+    anguloRad = (angulo * M_PI) / 180;
+
+    alturaMaxima = ((pow(velocidadI, 2)) * (pow(sin(anguloRad), 2))) / (9.81);
+    cout << "La altura maxima es: " << alturaMaxima << " m" << endl;
+}
+
 void fuerza()
 {
+    double fuerza = 0, masa = 0, aceleracion = 0;
+    cout << "Introduce la masa (en kg): ";
+    cin >> masa;
+    cout << "Introduce la aceleracion (en m/s^2): ";
+    cin >> aceleracion;
+
+    fuerza = masa * aceleracion;
+    cout << "La fuerza resultante es: " << fuerza << " N" << endl;
 }
+
 void peso()
 {
+    double peso = 0, masa = 0;
+    cout << "Introduce la masa (en Kg): ";
+    cin >> masa;
+
+    peso = masa * 9.81;
+    cout << "El peso es: " << peso << " N" << endl;
 }
+
 void friccion()
 {
+    double fuerzaFriccion = 0, coeficienteRoce = 0, fuerzaNormal = 0;
+    cout << "Introduce el coeficiente de friccion: ";
+    cin >> coeficienteRoce;
+    cout << "Introduce la fuerza normal (en N): ";
+    cin >> fuerzaNormal;
+
+    fuerzaFriccion = fuerzaNormal * coeficienteRoce;
+    cout << "La fuerza de friccion es: " << fuerzaFriccion << " N" << endl;
 }
+
 void fuerzaElastica()
 {
+    double fuerzaElastica = 0, constanteElasticaResorte = 0, deformacionResorte = 0;
+    cout << "Introduce la constante elastica del resorte (en N/m): ";
+    cin >> constanteElasticaResorte;
+    cout << "Introduce la deformacion del resorte (en m): ";
+    cin >> deformacionResorte;
+
+    fuerzaElastica = constanteElasticaResorte * deformacionResorte;
+    cout << "La fuerza elastica es: " << fuerzaElastica << " N" << endl;
 }
+
 void trabajo()
 {
+    double trabajo = 0, fuerza = 0, desplazamiento = 0, angulo = 0, anguloRad = 0;
+    cout << "Introduce la fuerza (en N): ";
+    cin >> fuerza;
+    cout << "Introduce el desplazamiento (en m): ";
+    cin >> desplazamiento;
+    cout << "Introduce el angulo entre la direccion de la fuerza y el desplazamiento: ";
+    cin >> angulo;
+
+    anguloRad = (angulo * M_PI) / 180;
+
+    trabajo = fuerza * desplazamiento * cos(anguloRad);
+    cout << "EL trabajo es: " << trabajo << " J" << endl;
 }
+
 void energiaCinetica()
 {
+    double energiaCinetica = 0, masa = 0, velocidad = 0;
+    cout << "Introduce la masa (en kg): ";
+    cin >> masa;
+    cout << "Introduce la velocidad (en m/s): ";
+    cin >> velocidad;
+
+    energiaCinetica = (masa / 2) * (pow(velocidad, 2));
+    cout << "La energia cinetica es: " << energiaCinetica << " J" << endl;
 }
+
 void energiaPotencial()
 {
+    double energiaPotencial = 0, masa = 0, altura = 0;
+    cout << "Introduce la masa (en kg): ";
+    cin >> masa;
+    cout << "Introduce la altura (en m): ";
+    cin >> altura;
+
+    energiaPotencial = masa * altura * 9.81;
+    cout << "La energia potencial es: " << energiaPotencial << " J" << endl;
 }
+
 void energiaPotencialElastica()
 {
+    double energiaPotencialElastica = 0, constanteElastica = 0, deformacionResorte = 0;
+    cout << "Introduce la constante elastica del resorte (en N/m): ";
+    cin >> constanteElastica;
+    cout << "Introduce la deformacion del resorte (en m): ";
+    cin >> deformacionResorte;
+
+    energiaPotencialElastica = (constanteElastica / 2) * (pow(deformacionResorte, 2));
+    cout << "La energia potencial elastica es: " << energiaPotencialElastica << " J" << endl;
 }
+
 void potencia()
 {
+    double potencia = 0, trabajo = 0, tiempo = 0;
+    cout << "Introduce la cantidad e trabajo (en J): ";
+    cin >> trabajo;
+    cout << "Introduce el intervalo de tiempo (en s): ";
+    cin >> tiempo;
+
+    potencia = trabajo / tiempo;
+    cout << "La potencia es: " << potencia << " Watts" << endl;
 }
