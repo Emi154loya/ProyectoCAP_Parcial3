@@ -907,25 +907,39 @@ void derivacionFuncionEvaluada(){
     cout << "Introduce el grado de tu funcion: ";
     cin >> grado;
     
+    //  Creamos un vector que a su vez almacenara mas vectores y estos ultimos vectores almacenaran valores double
+    // Esto para almacenar primero cuantas incognitas de n grado vamos a tener y luego de esto asignarle el coeficiente a cada incognita
+    // Ejemplo:
+    // vector incognitasYSusCoeficientes =  {vector<2,3,4,5>, vector<5>, vector<6, 1>, vector<2,5>}
+    // En el ejemplo tenemos un vector padre que almacenara mas vectores, cada vector almacenado representa un grado de x incognita, y cada valor
+    // de determinado vector sera un coeficiente de una incognita de dicho grado
+    // Siguiendo el ejemplo, nuestra funcion es de grado 3, tenemos cuatro incognitas de grado 0, una de grado 1, dos de grado 2 y dos de grado 3.
     vector<vector<double>> incognitasYSusCoeficientes;
     
+    // Ciclo para ir cambiando la incognita de grado n a n+1
     for (int i = 0; i<grado+1; i++)
     {
         cout << "Introduce cuantas incognitas de grado [" << i << "] tienes" << endl;
         double temp=0;
         cin >> temp;
         
+        // Creamos un vector temporal para almacenar los coeficientes de las incognitas
         vector<double> vectortemp;
+        // Como es un vector temporal, lo estaremos reestableciendo cada vez que se inicie un nuevo ciclo
         vectortemp.clear();
 
         cout << "Introduce los coeficientes de tus incognitas de grado [" << i << "] que tienes" << endl;
+        //Ciclo para almacenar los coeficientes de la incognita de grado n
         for (int y = 0; y<temp; y++)
         {
             double coeficientetemp=0;
             cout << "Incognita [" << y+1 << "]: ";
             cin >> coeficientetemp;
+            // A nuestro vector temporal le introduciremos los coeficientes de las incognitas de grado n
             vectortemp.push_back(coeficientetemp);
         }
+        // Ya que introducimos todos los coeficientes de las incognitas de grado n al vector temporal, dicho vector lo almacenaremos
+        // en el vector principal "incognitasYSusCoeficientes"
         incognitasYSusCoeficientes.push_back(vectortemp);
     }
 
@@ -946,16 +960,24 @@ void derivacionFuncionEvaluada(){
     */
 
     cout << "Esta seria tu funcion: ";
+    // Ciclo para mostrar la funcion dada por partes ya expresada normalmente
+    // El primer ciclo va del numero maximo de grado hasta cero, es decir si es de grado 4, va de  4,3,2,1,0
+    // Se le resta una unidad por que los arrays o vectores comienzan del 0
     for (int i = incognitasYSusCoeficientes.size()-1; i>=0; i--)
     {
+        // Ciclo para repasar cada conjunto de coeficientes de las incognitas de grado n
+        // Va de 0 al tamaño del conjunto de coeficientes de la incognita i que esta en el primer ciclo
+        // Siguiendo el ejemplo de que es grado 4, en el primer ciclo i va a tener el valor de 3 y en el segundo accesaremos al vector en la posicion 3 del
+        // vector principal y obtendremos su tamaño
         for (int y = 0; y<incognitasYSusCoeficientes.at(i).size(); y++)
         {
             
-
+            // Si el coeficiente es negativo, lo mostraremos tal cual ya que c++ lo muestra con su signo
             if (incognitasYSusCoeficientes.at(i).at(y)<0)
             {
                 cout << incognitasYSusCoeficientes.at(i).at(y) << "(x^" << i << ")";
             }
+            // Si el coeficiente es positivo, agregaremos el signo de + para que la expresion tenga sentido
             else{
                 cout << "+" << incognitasYSusCoeficientes.at(i).at(y) << "(x^" << i << ")";
             }
@@ -971,6 +993,7 @@ void derivacionFuncionEvaluada(){
     double xI=0, xIMenosUno=0, xIMenosDos=0, xIMasUno=0, xIMasDos=0;
     double resultadoDerivada=0;
 
+    // Variables para almacenar el valor de la funcion evaluada con distintos valores
     double xIEvaluado=0, xIMenosUnoEvaluado=0, xIMenosDosEvaluado=0, xIMasUnoEvaluado=0, xIMasDosEvaluado=0;
 
     cout << "=========" << endl;
@@ -981,16 +1004,17 @@ void derivacionFuncionEvaluada(){
     cout << "Introduce el tamaño de paso: ";
     cin >> hTamañodepaso;
 
+    
     xIMenosDos=(xI-(hTamañodepaso*2));
     xIMenosUno=(xI-(hTamañodepaso*1));
     xIMasUno=(xI+(hTamañodepaso*1));
     xIMasDos=(xI+(hTamañodepaso*2));
 
+    // Ciclo para evaluar la funcion con distintos valores
     for (int i = incognitasYSusCoeficientes.size()-1; i>=0; i--)
     {
         for (int y = 0; y<incognitasYSusCoeficientes.at(i).size(); y++)
         {
-            
             xIMenosUnoEvaluado+=((incognitasYSusCoeficientes.at(i).at(y))*(pow(xIMenosUno, i)));
             xIMenosDosEvaluado+=((incognitasYSusCoeficientes.at(i).at(y))*(pow(xIMenosDos, i)));
             xIMasUnoEvaluado+=((incognitasYSusCoeficientes.at(i).at(y))*(pow(xIMasUno, i)));
