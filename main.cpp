@@ -15,6 +15,7 @@
 #include <cmath>
 #include <math.h>
 #include <vector>
+#include <future>
 
 using namespace std;
 
@@ -54,6 +55,7 @@ void energiaPotencialElastica();
 void potencia();
 // Metodos Numericos
 void derivacionFuncionEvaluada();
+double xIMenosUnoEvaluado(vector<vector<double>>, double);
 
 void velocidadX_TiroParabolico(double &velocidadX, double velocidadI, double angulo)
 {
@@ -1035,13 +1037,13 @@ void derivacionFuncionEvaluada()
     // Ciclo para mostrar la funcion dada por partes ya expresada normalmente
     // El primer ciclo va del numero maximo de grado hasta cero, es decir si es de grado 4, va de  4,3,2,1,0
     // Se le resta una unidad por que los arrays o vectores comienzan del 0
-    for (int i = incognitasYSusCoeficientes.size() - 1; i >= 0; i--)
+    for (int i=incognitasYSusCoeficientes.size()-1; i>=0; i--)
     {
         // Ciclo para repasar cada conjunto de coeficientes de las incognitas de grado n
         // Va de 0 al tamaño del conjunto de coeficientes de la incognita i que esta en el primer ciclo
         // Siguiendo el ejemplo de que es grado 4, en el primer ciclo i va a tener el valor de 3 y en el segundo accesaremos al vector en la posicion 3 del
         // vector principal y obtendremos su tamaño
-        for (int y = 0; y < incognitasYSusCoeficientes.at(i).size(); y++)
+        for (int y=0; y<incognitasYSusCoeficientes.at(i).size(); y++)
         {
 
             // Si el coeficiente es negativo, lo mostraremos tal cual ya que c++ lo muestra con su signo
@@ -1062,12 +1064,8 @@ void derivacionFuncionEvaluada()
     double xI = 0, xIMenosUno = 0, xIMenosDos = 0, xIMasUno = 0, xIMasDos = 0;
     double resultadoDerivada = 0;
 
-    double hTamañodepaso = 0;
-    double xI = 0, xIMenosUno = 0, xIMenosDos = 0, xIMasUno = 0, xIMasDos = 0;
-    double resultadoDerivada = 0;
-
     // Variables para almacenar el valor de la funcion evaluada con distintos valores
-    double xIEvaluado = 0, xIMenosUnoEvaluado = 0, xIMenosDosEvaluado = 0, xIMasUnoEvaluado = 0, xIMasDosEvaluado = 0;
+    double xIMenosUnoEvaluado=0, xIMenosDosEvaluado=0, xIMasUnoEvaluado=0, xIMasDosEvaluado=0;
 
     cout << "=========" << endl;
     cout << "Centradas" << endl;
@@ -1077,24 +1075,26 @@ void derivacionFuncionEvaluada()
     cout << "Introduce el tamaño de paso: ";
     cin >> hTamañodepaso;
 
-    xIMenosDos = (xI - (hTamañodepaso * 2));
-    xIMenosUno = (xI - (hTamañodepaso * 1));
-    xIMasUno = (xI + (hTamañodepaso * 1));
-    xIMasDos = (xI + (hTamañodepaso * 2));
+    
+    xIMenosDos=(xI-(hTamañodepaso*2));
+    xIMenosUno=(xI-(hTamañodepaso*1));
+    xIMasUno=(xI+(hTamañodepaso*1));
+    xIMasDos=(xI+(hTamañodepaso*2));
 
-    for (int i = incognitasYSusCoeficientes.size() - 1; i >= 0; i--)
+    // Ciclo para evaluar la funcion con distintos valores
+    for (int i = incognitasYSusCoeficientes.size()-1; i>=0; i--)
     {
-        for (int y = 0; y < incognitasYSusCoeficientes.at(i).size(); y++)
+        for (int y = 0; y<incognitasYSusCoeficientes.at(i).size(); y++)
         {
-
-            xIMenosUnoEvaluado += ((incognitasYSusCoeficientes.at(i).at(y)) * (pow(xIMenosUno, i)));
-            xIMenosDosEvaluado += ((incognitasYSusCoeficientes.at(i).at(y)) * (pow(xIMenosDos, i)));
-            xIMasUnoEvaluado += ((incognitasYSusCoeficientes.at(i).at(y)) * (pow(xIMasUno, i)));
-            xIMasDosEvaluado += ((incognitasYSusCoeficientes.at(i).at(y)) * (pow(xIMasDos, i)));
+            xIMenosUnoEvaluado+=((incognitasYSusCoeficientes.at(i).at(y))*(pow(xIMenosUno, i)));
+            xIMenosDosEvaluado+=((incognitasYSusCoeficientes.at(i).at(y))*(pow(xIMenosDos, i)));
+            xIMasUnoEvaluado+=((incognitasYSusCoeficientes.at(i).at(y))*(pow(xIMasUno, i)));
+            xIMasDosEvaluado+=((incognitasYSusCoeficientes.at(i).at(y))*(pow(xIMasDos, i)));
+            
         }
     }
 
-    resultadoDerivada = (-(xIMasDosEvaluado) + (8 * xIMasUnoEvaluado) - (8 * xIMenosUnoEvaluado) + (xIMenosDosEvaluado)) / (12 * hTamañodepaso);
+    resultadoDerivada=(-(xIMasDosEvaluado)+(8*xIMasUnoEvaluado)-(8*xIMenosUnoEvaluado)+(xIMenosDosEvaluado)) / (12*hTamañodepaso);
 
     cout << "El resultado de la derivada es: " << resultadoDerivada << endl;
 }
