@@ -33,6 +33,11 @@ void volumenCasqueteApotema();
 void volumenCasqueteEsfera();
 // Aritmetica
 void aritmeticaFracciones();
+void operacionesBasicas();
+double suma(double, double);
+double resta(double, double);
+double multiplicacion(double, double);
+double division(double, double);
 // Fisica
 void movimientoRectilineoUniforme();
 void movimientoRectilineoUniformementeAcelerado();
@@ -55,7 +60,6 @@ void energiaPotencialElastica();
 void potencia();
 // Metodos Numericos
 void derivacionFuncionEvaluada();
-double xIMenosUnoEvaluado(vector<vector<double>>, double);
 
 void velocidadX_TiroParabolico(double &velocidadX, double velocidadI, double angulo)
 {
@@ -306,12 +310,16 @@ int main()
             case 3:
                 cout << "====== Formulas de Aritmetica ======" << endl;
                 cout << "[1] Aritmetica de dos fracciones" << endl;
+                cout << "[2] Operaciones basicas de dos numeros" << endl;
                 cin >> choice2;
                 // Switch para utilizar el procedimiento escogido
                 switch (choice2)
                 {
                 case 1:
                     aritmeticaFracciones();
+                    break;
+                case 2:
+                    operacionesBasicas();
                     break;
 
                 default:
@@ -728,6 +736,53 @@ void aritmeticaFracciones()
     cout << "La multiplicacion es: " << resultado << endl;
 }
 
+void operacionesBasicas(){
+    //Arreglo de 4 funciones
+    double (*(functions[4]))(double, double) = {suma, resta, multiplicacion, division};
+    
+    double x=0;
+    double y=0;
+    
+    int choice = 0;
+
+    cout << "Operacion a realizar:" << endl;
+    cout << "[1] Suma" << endl;
+    cout << "[2] Resta" << endl;
+    cout << "[3] Multiplicacion" << endl;
+    cout << "[4] Division" << endl;
+    
+    cin >> choice;
+
+    cout << "Ingresa tu primer numero" << endl;
+    cin >> x;
+    cout << "Ingresa tu segundo numero" << endl;
+    cin >> y;
+
+    double res=functions[choice-1](x, y);
+    cout << "El resultado de la operacion es: " << res << endl;
+
+}
+double suma(double x, double y){
+    return x+y;
+}
+
+double resta(double x, double y){
+    return x-y;
+}
+
+double multiplicacion(double x, double y){
+    return x*y;
+}
+
+double division(double x, double y){
+    if (y==0)
+    {
+        throw invalid_argument("!!! ERROR: Se esta intentando dividir entre cero !!!");
+    }
+    
+    return x/y;
+}
+
 /*
 ================
 ***FISICA***
@@ -1124,20 +1179,55 @@ void derivacionFuncionEvaluada()
         // Como es un vector temporal, lo estaremos reestableciendo cada vez que se inicie un nuevo ciclo
         vectortemp.clear();
 
-        cout << "Introduce los coeficientes de tus incognitas de grado [" << i << "] que tienes" << endl;
-        // Ciclo para almacenar los coeficientes de la incognita de grado n
-        for (int y = 0; y < temp; y++)
+        if (grado==0 && temp ==0)
         {
-            double coeficientetemp = 0;
-            cout << "Incognita [" << y + 1 << "]: ";
-            cin >> coeficientetemp;
-            // A nuestro vector temporal le introduciremos los coeficientes de las incognitas de grado n
-            vectortemp.push_back(coeficientetemp);
+            throw invalid_argument("!!! ERROR: No hay nada que calcular !!!");
         }
-        // Ya que introducimos todos los coeficientes de las incognitas de grado n al vector temporal, dicho vector lo almacenaremos
-        // en el vector principal "incognitasYSusCoeficientes"
-        incognitasYSusCoeficientes.push_back(vectortemp);
+
+        if (temp==0)
+        {
+            incognitasYSusCoeficientes.push_back(vectortemp);
+        }
+        else if (temp>0)
+        {
+            cout << "Introduce los coeficientes de tus incognitas de grado [" << i << "] que tienes" << endl;
+            // Ciclo para almacenar los coeficientes de la incognita de grado n
+            for (int y = 0; y < temp; y++)
+            {                
+                double coeficientetemp = 0;
+                cout << "Incognita [" << y + 1 << "]: ";
+                cin >> coeficientetemp;
+                // A nuestro vector temporal le introduciremos los coeficientes de las incognitas de grado n
+                vectortemp.push_back(coeficientetemp);
+            }
+            // Ya que introducimos todos los coeficientes de las incognitas de grado n al vector temporal, dicho vector lo almacenaremos
+            // en el vector principal "incognitasYSusCoeficientes"
+            incognitasYSusCoeficientes.push_back(vectortemp);
+        }
+        else if (temp<0)
+        {
+            throw invalid_argument("!!! ERROR: No puede haber cantidad de incognitas negativas. !!!");
+        }
+        
+        
     }
+
+    double temp=0;
+
+    for (int i = 0; i<incognitasYSusCoeficientes.size(); i++)
+    {
+        for (int y = 0; y<incognitasYSusCoeficientes.at(i).size(); y++)
+        {
+            temp+=incognitasYSusCoeficientes.at(i).size();
+        }
+        
+    }
+    
+    if (temp==0)
+    {
+        throw invalid_argument("!!! ERROR: No hay nada que calcular !!!");
+    }
+    
 
     /*
     cout << incognitasYSusCoeficientes.size() << endl;
