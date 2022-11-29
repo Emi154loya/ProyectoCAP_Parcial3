@@ -10,6 +10,7 @@
 #include <iostream>
 #include <thread>
 #include <stdexcept>
+#include <exception>
 #define _USE_MATH_DEFINES
 #include <cmath>
 #include <math.h>
@@ -65,6 +66,16 @@ void velocidadY_TiroParabolico(double &velocidadY, double velocidadI, double ang
     velocidadY = velocidadIY + (aceleracion * tiempo);
 }
 
+// ---- Excepciones personalizadas ----
+
+// Excepcion para el volumen negativo
+struct ExcepcionVolumenNegativo : public exception
+{
+    const char *what() const throw()
+    {
+        return "!!! ERROR: El volumen es negativo, no se puede resolver la ecuacion !!!";
+    }
+};
 struct Fraccion
 {
     int numerador = 0, denominador = 0;
@@ -162,267 +173,274 @@ int main()
     // do while para ciclar el menu
     do
     {
-        cout << "================================================================" << endl;
-        cout << "============ Bienvenido a la Calculadora Formularia ============" << endl;
-        cout << "================================================================" << endl;
-        cout << "Escoge una opcion del menu" << endl;
-        cout << "[1] Algebra" << endl;
-        cout << "[2] Geometria" << endl;
-        cout << "[3] Aritmetica" << endl;
-        cout << "[4] Fisica" << endl;
-        cout << "[5] Metodos Numericos" << endl;
-        cout << "[6] Salir" << endl;
-        cin >> choice;
-
-        // Switch para desplegar segundo menu
-        switch (choice)
+        try
         {
-        case 1:
-            cout << "====== Formulas de algebra ======" << endl;
-            cout << "[1] Formula general" << endl;
-            cin >> choice2;
-            // Switch para utilizar el procedimiento escogido
-            switch (choice2)
+            cout << "================================================================" << endl;
+            cout << "============ Bienvenido a la Calculadora Formularia ============" << endl;
+            cout << "================================================================" << endl;
+            cout << "Escoge una opcion del menu" << endl;
+            cout << "[1] Algebra" << endl;
+            cout << "[2] Geometria" << endl;
+            cout << "[3] Aritmetica" << endl;
+            cout << "[4] Fisica" << endl;
+            cout << "[5] Metodos Numericos" << endl;
+            cout << "[6] Salir" << endl;
+            cin >> choice;
+
+            // Switch para desplegar segundo menu
+            switch (choice)
             {
             case 1:
-                try
+                cout << "====== Formulas de algebra ======" << endl;
+                cout << "[1] Formula general" << endl;
+                cin >> choice2;
+                // Switch para utilizar el procedimiento escogido
+                switch (choice2)
                 {
+                case 1:
                     formulaGral();
-                }
-                catch (invalid_argument &e)
-                {
-                    cout << e.what() << endl;
-                }
-
-                break;
-
-            default:
-                break;
-            }
-            break;
-
-        case 2:
-            cout << "====== Formulas de geometria ======" << endl;
-            cout << "[1] Volumen de un cono" << endl;
-            cout << "[2] Volumen de una esfera" << endl;
-            cout << "[3] Volumen de una piramide cuadrada" << endl;
-            cout << "[4] Volumen de un Tetraedro (Piramide triangular)" << endl;
-            cout << "[5] Volumen de un Casquete" << endl;
-            cin >> choice2;
-            // Switch para utilizar el procedimiento escogido
-            switch (choice2)
-            {
-            case 1:
-                // Switch para desplegar menu Cono
-                cout << "====== Formula del cono ======" << endl;
-                cout << "[1] Volumen cono completo" << endl;
-                cout << "[2] Volumen tronco de cono" << endl;
-                cin >> choice3;
-                // Switch para utilizar el procedimiento escogido
-                switch (choice3)
-                {
-                case 1:
-                    volumenCono();
-                    break;
-                case 2:
-                    volumenTroncoCono();
                     break;
                 default:
                     break;
                 }
                 break;
+
             case 2:
-                volumenEsfera();
-                break;
-            case 3:
-                volumenPiramideCuadrada();
-                break;
-            case 4:
-                // Switch para desplegar menu Tetraedro
-                cout << "====== Tipos de Tetraedro ======" << endl;
-                cout << "[1] Volumen regular (caras iguales)" << endl;
-                cout << "[2] Volumen con base regular" << endl;
-                cin >> choice3;
+                cout << "====== Formulas de geometria ======" << endl;
+                cout << "[1] Volumen de un cono" << endl;
+                cout << "[2] Volumen de una esfera" << endl;
+                cout << "[3] Volumen de una piramide cuadrada" << endl;
+                cout << "[4] Volumen de un Tetraedro (Piramide triangular)" << endl;
+                cout << "[5] Volumen de un Casquete" << endl;
+                cin >> choice2;
                 // Switch para utilizar el procedimiento escogido
-                switch (choice3)
+                switch (choice2)
                 {
                 case 1:
-                    volumenTetraedroRegular();
+                    // Switch para desplegar menu Cono
+                    cout << "====== Formula del cono ======" << endl;
+                    cout << "[1] Volumen cono completo" << endl;
+                    cout << "[2] Volumen tronco de cono" << endl;
+                    cin >> choice3;
+                    // Switch para utilizar el procedimiento escogido
+                    switch (choice3)
+                    {
+                    case 1:
+                        volumenCono();
+                        break;
+                    case 2:
+                        volumenTroncoCono();
+                        break;
+                    default:
+                        break;
+                    }
                     break;
                 case 2:
-                    volumenTetraedroBaseRegular();
-                    break;
-
-                default:
-                    break;
-                }
-                break;
-            case 5:
-                // Switch para desplegar menu Casquetes
-                cout << "====== Tipos de Casquetes ======" << endl;
-                cout << "[1] Volumen a partir del apotema (radio de la base del casquete)" << endl;
-                cout << "[2] Volumen a partir del radio de la esfera" << endl;
-                cin >> choice3;
-                // Switch para utilizar el procedimiento escogido
-                switch (choice3)
-                {
-                case 1:
-                    volumenCasqueteApotema();
-                    break;
-                case 2:
-                    volumenCasqueteEsfera();
-                    break;
-
-                default:
-                    break;
-                }
-                break;
-
-            default:
-                break;
-            }
-            break;
-
-        case 3:
-            cout << "====== Formulas de Aritmetica ======" << endl;
-            cout << "[1] Aritmetica de dos fracciones" << endl;
-            cin >> choice2;
-            // Switch para utilizar el procedimiento escogido
-            switch (choice2)
-            {
-            case 1:
-                aritmeticaFracciones();
-                break;
-
-            default:
-                break;
-            }
-            break;
-        case 4:
-            cout << "====== Formulas de Fisica ======" << endl;
-            cout << "[1]  Movimiento rectilineo uniforme" << endl;
-            cout << "[2]  Movimiento rectilineo uniformemente acelerado" << endl;
-            cout << "[3]  Movimiento circular uniforme" << endl;
-            cout << "[4]  Tiro parabolico" << endl;
-            cout << "[5]  Fuerza" << endl;
-            cout << "[6]  Peso" << endl;
-            cout << "[7]  Friccion" << endl;
-            cout << "[8]  Fuerza elastica" << endl;
-            cout << "[9]  Trabajo" << endl;
-            cout << "[10] Energia cinetica" << endl;
-            cout << "[11] Energia potencial" << endl;
-            cout << "[12] Energia potencial elastica" << endl;
-            cout << "[13] Potencia" << endl;
-            cin >> choice2;
-            switch (choice2)
-            {
-            case 1:
-                movimientoRectilineoUniforme();
-                break;
-            case 2:
-                movimientoRectilineoUniformementeAcelerado();
-                break;
-            case 3:
-                cout << "====== Movimiento Circular Uniforme ======" << endl;
-                cout << "[1] Velocidad" << endl;
-                cout << "[2] Velocidad angular" << endl;
-                cout << "[3] Periodo" << endl;
-                cout << "[4] Aceleracion centripeta" << endl;
-                cin >> choice3;
-                switch (choice3)
-                {
-                case 1:
-                    velocidadMovimientoCircularUniforme();
-                    break;
-                case 2:
-                    velocidadAngularMovimientoCircularUniforme();
+                    volumenEsfera();
                     break;
                 case 3:
-                    periodoMovimientoCircularUniforme();
+                    volumenPiramideCuadrada();
                     break;
                 case 4:
-                    aceleracionCentripetaMovimientoCircularUniforme();
+                    // Switch para desplegar menu Tetraedro
+                    cout << "====== Tipos de Tetraedro ======" << endl;
+                    cout << "[1] Volumen regular (caras iguales)" << endl;
+                    cout << "[2] Volumen con base regular" << endl;
+                    cin >> choice3;
+                    // Switch para utilizar el procedimiento escogido
+                    switch (choice3)
+                    {
+                    case 1:
+                        volumenTetraedroRegular();
+                        break;
+                    case 2:
+                        volumenTetraedroBaseRegular();
+                        break;
+
+                    default:
+                        break;
+                    }
                     break;
+                case 5:
+                    // Switch para desplegar menu Casquetes
+                    cout << "====== Tipos de Casquetes ======" << endl;
+                    cout << "[1] Volumen a partir del apotema (radio de la base del casquete)" << endl;
+                    cout << "[2] Volumen a partir del radio de la esfera" << endl;
+                    cin >> choice3;
+                    // Switch para utilizar el procedimiento escogido
+                    switch (choice3)
+                    {
+                    case 1:
+                        volumenCasqueteApotema();
+                        break;
+                    case 2:
+                        volumenCasqueteEsfera();
+                        break;
+
+                    default:
+                        break;
+                    }
+                    break;
+
+                default:
+                    break;
+                }
+                break;
+
+            case 3:
+                cout << "====== Formulas de Aritmetica ======" << endl;
+                cout << "[1] Aritmetica de dos fracciones" << endl;
+                cin >> choice2;
+                // Switch para utilizar el procedimiento escogido
+                switch (choice2)
+                {
+                case 1:
+                    aritmeticaFracciones();
+                    break;
+
                 default:
                     break;
                 }
                 break;
             case 4:
-                cout << "====== Tiro Parabolico ======" << endl;
-                cout << "[1] Velocidad en X y Y" << endl;
-                cout << "[2] Velocidad inicial en Y" << endl;
-                cout << "[3] Altura maxima" << endl;
-                cout << "[4] Alcance" << endl;
-                cin >> choice3;
-
-                switch (choice3)
+                cout << "====== Formulas de Fisica ======" << endl;
+                cout << "[1]  Movimiento rectilineo uniforme" << endl;
+                cout << "[2]  Movimiento rectilineo uniformemente acelerado" << endl;
+                cout << "[3]  Movimiento circular uniforme" << endl;
+                cout << "[4]  Tiro parabolico" << endl;
+                cout << "[5]  Fuerza" << endl;
+                cout << "[6]  Peso" << endl;
+                cout << "[7]  Friccion" << endl;
+                cout << "[8]  Fuerza elastica" << endl;
+                cout << "[9]  Trabajo" << endl;
+                cout << "[10] Energia cinetica" << endl;
+                cout << "[11] Energia potencial" << endl;
+                cout << "[12] Energia potencial elastica" << endl;
+                cout << "[13] Potencia" << endl;
+                cin >> choice2;
+                switch (choice2)
                 {
                 case 1:
-                    velocidadesXY_TiroParabolico();
+                    movimientoRectilineoUniforme();
                     break;
                 case 2:
-                    velocidadInicialY_TiroParabolico();
+                    movimientoRectilineoUniformementeAcelerado();
                     break;
                 case 3:
-                    alturaMaximaTiroParabolico();
+                    cout << "====== Movimiento Circular Uniforme ======" << endl;
+                    cout << "[1] Velocidad" << endl;
+                    cout << "[2] Velocidad angular" << endl;
+                    cout << "[3] Periodo" << endl;
+                    cout << "[4] Aceleracion centripeta" << endl;
+                    cin >> choice3;
+                    switch (choice3)
+                    {
+                    case 1:
+                        velocidadMovimientoCircularUniforme();
+                        break;
+                    case 2:
+                        velocidadAngularMovimientoCircularUniforme();
+                        break;
+                    case 3:
+                        periodoMovimientoCircularUniforme();
+                        break;
+                    case 4:
+                        aceleracionCentripetaMovimientoCircularUniforme();
+                        break;
+                    default:
+                        break;
+                    }
                     break;
                 case 4:
-                    alcanceTiroParabolico();
-                    break;
+                    cout << "====== Tiro Parabolico ======" << endl;
+                    cout << "[1] Velocidad en X y Y" << endl;
+                    cout << "[2] Velocidad inicial en Y" << endl;
+                    cout << "[3] Altura maxima" << endl;
+                    cout << "[4] Alcance" << endl;
+                    cin >> choice3;
 
+                    switch (choice3)
+                    {
+                    case 1:
+                        velocidadesXY_TiroParabolico();
+                        break;
+                    case 2:
+                        velocidadInicialY_TiroParabolico();
+                        break;
+                    case 3:
+                        alturaMaximaTiroParabolico();
+                        break;
+                    case 4:
+                        alcanceTiroParabolico();
+                        break;
+
+                    default:
+                        break;
+                    }
+                    break;
+                case 5:
+                    fuerza();
+                    break;
+                case 6:
+                    peso();
+                    break;
+                case 7:
+                    friccion();
+                    break;
+                case 8:
+                    fuerzaElastica();
+                    break;
+                case 9:
+                    trabajo();
+                    break;
+                case 10:
+                    energiaCinetica();
+                    break;
+                case 11:
+                    energiaPotencial();
+                    break;
+                case 12:
+                    energiaPotencialElastica();
+                    break;
+                case 13:
+                    potencia();
+                    break;
                 default:
                     break;
                 }
                 break;
+
             case 5:
-                fuerza();
+                cout << "====== Metodos Numericos ======" << endl;
+                cout << "[1]  Derivacion de una funcion(evaluada)" << endl;
+                cin >> choice2;
+                switch (choice2)
+                {
+                case 1:
+                    derivacionFuncionEvaluada();
+                    break;
+                default:
+                    break;
+                }
                 break;
-            case 6:
-                peso();
-                break;
-            case 7:
-                friccion();
-                break;
-            case 8:
-                fuerzaElastica();
-                break;
-            case 9:
-                trabajo();
-                break;
-            case 10:
-                energiaCinetica();
-                break;
-            case 11:
-                energiaPotencial();
-                break;
-            case 12:
-                energiaPotencialElastica();
-                break;
-            case 13:
-                potencia();
-                break;
+
             default:
                 break;
             }
-            break;
-
-        case 5:
-            cout << "====== Metodos Numericos ======" << endl;
-            cout << "[1]  Derivacion de una funcion(evaluada)" << endl;
-            cin >> choice2;
-            switch (choice2)
-            {
-            case 1:
-                derivacionFuncionEvaluada();
-                break;
-            default:
-                break;
-            }
-            break;
-
-        default:
-            break;
         }
+        catch (ExcepcionVolumenNegativo &excepcionVolumenNegativo)
+        {
+            cout << excepcionVolumenNegativo.what() << endl;
+        }
+        catch (invalid_argument &ia)
+        {
+            cout << ia.what() << endl;
+        }
+        catch (const exception &e)
+        {
+            cout << e.what() << endl;
+        }
+
     } while (choice != 6);
 
     return 0;
@@ -473,23 +491,29 @@ void formulaGral()
 // Volumen de un cono
 void volumenCono()
 {
-    double* PTRVARIABLES = new double[3];
-    //0 radiobase, 1 altura, 2 volumen
+    double *PTRVARIABLES = new double[3];
+    // 0 radiobase, 1 altura, 2 volumen
     cout << "Introduce el radio de la base" << endl;
     cin >> PTRVARIABLES[0];
     cout << "Introduce la altura" << endl;
     cin >> PTRVARIABLES[1];
     PTRVARIABLES[2] = ((M_PI * (pow(PTRVARIABLES[0], 2) * PTRVARIABLES[1])) / 3);
 
+    if (PTRVARIABLES[2] < 0)
+    {
+        delete[] PTRVARIABLES;
+        throw ExcepcionVolumenNegativo();
+    }
+
     cout << "El volumen es: " << PTRVARIABLES[2] << endl;
-    delete [] PTRVARIABLES ;
+    delete[] PTRVARIABLES;
 }
 
 // Volumen de un tronco de cono
 void volumenTroncoCono()
 {
 
-    double* PTRVARIABLES = new double[4];
+    double *PTRVARIABLES = new double[4];
     // 0 radiobase, 1 radioBaseMenor, 2 altura, 3 volumen
     cout << "Introduce el radio mayor del cono" << endl;
     cin >> PTRVARIABLES[0];
@@ -499,31 +523,43 @@ void volumenTroncoCono()
     cin >> PTRVARIABLES[2];
     PTRVARIABLES[3] = ((PTRVARIABLES[2] * M_PI * ((pow(PTRVARIABLES[0], 2)) + (pow(PTRVARIABLES[1], 2)) + (PTRVARIABLES[0] * PTRVARIABLES[1]))) / 3);
 
+    if (PTRVARIABLES[3] < 0)
+    {
+        delete[] PTRVARIABLES;
+        throw ExcepcionVolumenNegativo();
+    }
+
     cout << "El volumen es: " << PTRVARIABLES[3] << endl
          << endl;
-    delete [] PTRVARIABLES ;
+    delete[] PTRVARIABLES;
 }
 
 // Volumen de una esfera
 void volumenEsfera()
 {
-    double* PTRVARIABLES = new double[2];
-    //0 radio, 1 volumen
+    double *PTRVARIABLES = new double[2];
+    // 0 radio, 1 volumen
 
     cout << "Introduce el radio de la esfera" << endl;
     cin >> PTRVARIABLES[0];
     PTRVARIABLES[1] = ((4 * M_PI * (pow(PTRVARIABLES[0], 3))) / 3);
 
+    if (PTRVARIABLES[1] < 0)
+    {
+        delete[] PTRVARIABLES;
+        throw ExcepcionVolumenNegativo();
+    }
+
     cout << "El volumen es: " << PTRVARIABLES[1] << endl
          << endl;
-    delete [] PTRVARIABLES ;
+    delete[] PTRVARIABLES;
 }
 
 // Volumen de una Piramide Cuadrada
 void volumenPiramideCuadrada()
 {
-    double* PTRVARIABLES = new double[3];
-    //0 lado, 1 altura, 2 volumen
+    double *PTRVARIABLES = new double[3];
+    // 0 lado, 1 altura, 2 volumen
 
     cout << "Introduce el lado de la base" << endl;
     cin >> PTRVARIABLES[0];
@@ -531,31 +567,43 @@ void volumenPiramideCuadrada()
     cin >> PTRVARIABLES[1];
     PTRVARIABLES[2] = (((pow(PTRVARIABLES[0], 2)) * PTRVARIABLES[1]) / 3);
 
+    if (PTRVARIABLES[2] < 0)
+    {
+        delete[] PTRVARIABLES;
+        throw ExcepcionVolumenNegativo();
+    }
+
     cout << "El volumen es: " << PTRVARIABLES[2] << endl
          << endl;
-    delete [] PTRVARIABLES ;
+    delete[] PTRVARIABLES;
 }
 
 // Volumen de un Tetraedro Regular
 void volumenTetraedroRegular()
 {
-    double* PTRVARIABLES = new double[2];
-    //0 lado, 1 volumen
+    double *PTRVARIABLES = new double[2];
+    // 0 lado, 1 volumen
 
     cout << "Introduce el lado de la base" << endl;
     cin >> PTRVARIABLES[0];
     PTRVARIABLES[1] = ((pow(PTRVARIABLES[0], 3)) * ((sqrt(2)) / 12));
 
+    if (PTRVARIABLES[1] < 0)
+    {
+        delete[] PTRVARIABLES;
+        throw ExcepcionVolumenNegativo();
+    }
+
     cout << "El volumen es: " << PTRVARIABLES[1] << endl
          << endl;
-    delete [] PTRVARIABLES ;
+    delete[] PTRVARIABLES;
 }
 
 // Volumen de un Tetraedro con base Regular
 void volumenTetraedroBaseRegular()
 {
-    double* PTRVARIABLES = new double[3];
-    //0 lado, 1 altura, 2 volumen
+    double *PTRVARIABLES = new double[3];
+    // 0 lado, 1 altura, 2 volumen
 
     cout << "Introduce el lado de la base" << endl;
     cin >> PTRVARIABLES[0];
@@ -564,16 +612,22 @@ void volumenTetraedroBaseRegular()
 
     PTRVARIABLES[2] = (PTRVARIABLES[1] * (pow(PTRVARIABLES[0], 2)) * ((sqrt(3)) / 12));
 
+    if (PTRVARIABLES[2] < 0)
+    {
+        delete[] PTRVARIABLES;
+        throw ExcepcionVolumenNegativo();
+    }
+
     cout << "El volumen es: " << PTRVARIABLES[2] << endl
          << endl;
-    delete [] PTRVARIABLES ;
+    delete[] PTRVARIABLES;
 }
 
 // Volumen de un casquete usando apotema
 void volumenCasqueteApotema()
 {
-    double* PTRVARIABLES = new double[3];
-    //0 apotema, 1 altura, 2 volumen
+    double *PTRVARIABLES = new double[3];
+    // 0 apotema, 1 altura, 2 volumen
 
     cout << "Introduce el radio de la base del casquete (apotema)" << endl;
     cin >> PTRVARIABLES[0];
@@ -581,16 +635,22 @@ void volumenCasqueteApotema()
     cin >> PTRVARIABLES[1];
     PTRVARIABLES[2] = (((M_PI * PTRVARIABLES[1]) * ((3 * (pow(PTRVARIABLES[0], 2))) + (pow(PTRVARIABLES[1], 2)))) / 6);
 
+    if (PTRVARIABLES[2] < 0)
+    {
+        delete[] PTRVARIABLES;
+        throw ExcepcionVolumenNegativo();
+    }
+
     cout << "El volumen es: " << PTRVARIABLES[2] << endl
          << endl;
-    delete [] PTRVARIABLES ;
+    delete[] PTRVARIABLES;
 }
 
 // Volumen de un casquete desde el radio de la esfera
 void volumenCasqueteEsfera()
 {
-    double* PTRVARIABLES = new double[3];
-    //0 radio, 1 altura, 2 volumen
+    double *PTRVARIABLES = new double[3];
+    // 0 radio, 1 altura, 2 volumen
 
     cout << "Introduce el radio de la esfera" << endl;
     cin >> PTRVARIABLES[0];
@@ -598,9 +658,15 @@ void volumenCasqueteEsfera()
     cin >> PTRVARIABLES[1];
     PTRVARIABLES[2] = (((M_PI * (pow(PTRVARIABLES[1], 2))) * ((3 * PTRVARIABLES[0]) - PTRVARIABLES[1])) / 3);
 
+    if (PTRVARIABLES[2] < 0)
+    {
+        delete[] PTRVARIABLES;
+        throw ExcepcionVolumenNegativo();
+    }
+
     cout << "El volumen es: " << PTRVARIABLES[2] << endl
          << endl;
-    delete [] PTRVARIABLES ;
+    delete[] PTRVARIABLES;
 }
 
 /*
@@ -622,6 +688,11 @@ void aritmeticaFracciones()
     cin >> fraccionB.numerador;
     cout << "Introduce el denominador de tu segunda fraccion: ";
     cin >> fraccionB.denominador;
+
+    if (fraccionA.denominador == 0 || fraccionB.denominador == 0)
+    {
+        throw invalid_argument("!!! ERROR: El denominador es igual a cero, no se puede resolver la operacion !!!");
+    }
 
     resultado = fraccionA + fraccionB;
     cout << "La suma es: " << resultado << endl;
@@ -899,14 +970,15 @@ void potencia()
 =======================
 */
 
-void derivacionFuncionEvaluada(){
+void derivacionFuncionEvaluada()
+{
 
-    int grado=0;
+    int grado = 0;
 
     cout << "Vamos a introducir tu funcion, por pasos" << endl;
     cout << "Introduce el grado de tu funcion: ";
     cin >> grado;
-    
+
     //  Creamos un vector que a su vez almacenara mas vectores y estos ultimos vectores almacenaran valores double
     // Esto para almacenar primero cuantas incognitas de n grado vamos a tener y luego de esto asignarle el coeficiente a cada incognita
     // Ejemplo:
@@ -915,25 +987,25 @@ void derivacionFuncionEvaluada(){
     // de determinado vector sera un coeficiente de una incognita de dicho grado
     // Siguiendo el ejemplo, nuestra funcion es de grado 3, tenemos cuatro incognitas de grado 0, una de grado 1, dos de grado 2 y dos de grado 3.
     vector<vector<double>> incognitasYSusCoeficientes;
-    
+
     // Ciclo para ir cambiando la incognita de grado n a n+1
-    for (int i = 0; i<grado+1; i++)
+    for (int i = 0; i < grado + 1; i++)
     {
         cout << "Introduce cuantas incognitas de grado [" << i << "] tienes" << endl;
-        double temp=0;
+        double temp = 0;
         cin >> temp;
-        
+
         // Creamos un vector temporal para almacenar los coeficientes de las incognitas
         vector<double> vectortemp;
         // Como es un vector temporal, lo estaremos reestableciendo cada vez que se inicie un nuevo ciclo
         vectortemp.clear();
 
         cout << "Introduce los coeficientes de tus incognitas de grado [" << i << "] que tienes" << endl;
-        //Ciclo para almacenar los coeficientes de la incognita de grado n
-        for (int y = 0; y<temp; y++)
+        // Ciclo para almacenar los coeficientes de la incognita de grado n
+        for (int y = 0; y < temp; y++)
         {
-            double coeficientetemp=0;
-            cout << "Incognita [" << y+1 << "]: ";
+            double coeficientetemp = 0;
+            cout << "Incognita [" << y + 1 << "]: ";
             cin >> coeficientetemp;
             // A nuestro vector temporal le introduciremos los coeficientes de las incognitas de grado n
             vectortemp.push_back(coeficientetemp);
@@ -963,38 +1035,39 @@ void derivacionFuncionEvaluada(){
     // Ciclo para mostrar la funcion dada por partes ya expresada normalmente
     // El primer ciclo va del numero maximo de grado hasta cero, es decir si es de grado 4, va de  4,3,2,1,0
     // Se le resta una unidad por que los arrays o vectores comienzan del 0
-    for (int i = incognitasYSusCoeficientes.size()-1; i>=0; i--)
+    for (int i = incognitasYSusCoeficientes.size() - 1; i >= 0; i--)
     {
         // Ciclo para repasar cada conjunto de coeficientes de las incognitas de grado n
         // Va de 0 al tamaño del conjunto de coeficientes de la incognita i que esta en el primer ciclo
         // Siguiendo el ejemplo de que es grado 4, en el primer ciclo i va a tener el valor de 3 y en el segundo accesaremos al vector en la posicion 3 del
         // vector principal y obtendremos su tamaño
-        for (int y = 0; y<incognitasYSusCoeficientes.at(i).size(); y++)
+        for (int y = 0; y < incognitasYSusCoeficientes.at(i).size(); y++)
         {
-            
+
             // Si el coeficiente es negativo, lo mostraremos tal cual ya que c++ lo muestra con su signo
-            if (incognitasYSusCoeficientes.at(i).at(y)<0)
+            if (incognitasYSusCoeficientes.at(i).at(y) < 0)
             {
                 cout << incognitasYSusCoeficientes.at(i).at(y) << "(x^" << i << ")";
             }
             // Si el coeficiente es positivo, agregaremos el signo de + para que la expresion tenga sentido
-            else{
+            else
+            {
                 cout << "+" << incognitasYSusCoeficientes.at(i).at(y) << "(x^" << i << ")";
             }
-            
-            
-            
         }
     }
     cout << endl;
 
+    double hTamañodepaso = 0;
+    double xI = 0, xIMenosUno = 0, xIMenosDos = 0, xIMasUno = 0, xIMasDos = 0;
+    double resultadoDerivada = 0;
 
-    double hTamañodepaso=0;
-    double xI=0, xIMenosUno=0, xIMenosDos=0, xIMasUno=0, xIMasDos=0;
-    double resultadoDerivada=0;
+    double hTamañodepaso = 0;
+    double xI = 0, xIMenosUno = 0, xIMenosDos = 0, xIMasUno = 0, xIMasDos = 0;
+    double resultadoDerivada = 0;
 
     // Variables para almacenar el valor de la funcion evaluada con distintos valores
-    double xIEvaluado=0, xIMenosUnoEvaluado=0, xIMenosDosEvaluado=0, xIMasUnoEvaluado=0, xIMasDosEvaluado=0;
+    double xIEvaluado = 0, xIMenosUnoEvaluado = 0, xIMenosDosEvaluado = 0, xIMasUnoEvaluado = 0, xIMasDosEvaluado = 0;
 
     cout << "=========" << endl;
     cout << "Centradas" << endl;
@@ -1004,26 +1077,24 @@ void derivacionFuncionEvaluada(){
     cout << "Introduce el tamaño de paso: ";
     cin >> hTamañodepaso;
 
-    
-    xIMenosDos=(xI-(hTamañodepaso*2));
-    xIMenosUno=(xI-(hTamañodepaso*1));
-    xIMasUno=(xI+(hTamañodepaso*1));
-    xIMasDos=(xI+(hTamañodepaso*2));
+    xIMenosDos = (xI - (hTamañodepaso * 2));
+    xIMenosUno = (xI - (hTamañodepaso * 1));
+    xIMasUno = (xI + (hTamañodepaso * 1));
+    xIMasDos = (xI + (hTamañodepaso * 2));
 
-    // Ciclo para evaluar la funcion con distintos valores
-    for (int i = incognitasYSusCoeficientes.size()-1; i>=0; i--)
+    for (int i = incognitasYSusCoeficientes.size() - 1; i >= 0; i--)
     {
-        for (int y = 0; y<incognitasYSusCoeficientes.at(i).size(); y++)
+        for (int y = 0; y < incognitasYSusCoeficientes.at(i).size(); y++)
         {
-            xIMenosUnoEvaluado+=((incognitasYSusCoeficientes.at(i).at(y))*(pow(xIMenosUno, i)));
-            xIMenosDosEvaluado+=((incognitasYSusCoeficientes.at(i).at(y))*(pow(xIMenosDos, i)));
-            xIMasUnoEvaluado+=((incognitasYSusCoeficientes.at(i).at(y))*(pow(xIMasUno, i)));
-            xIMasDosEvaluado+=((incognitasYSusCoeficientes.at(i).at(y))*(pow(xIMasDos, i)));
-            
+
+            xIMenosUnoEvaluado += ((incognitasYSusCoeficientes.at(i).at(y)) * (pow(xIMenosUno, i)));
+            xIMenosDosEvaluado += ((incognitasYSusCoeficientes.at(i).at(y)) * (pow(xIMenosDos, i)));
+            xIMasUnoEvaluado += ((incognitasYSusCoeficientes.at(i).at(y)) * (pow(xIMasUno, i)));
+            xIMasDosEvaluado += ((incognitasYSusCoeficientes.at(i).at(y)) * (pow(xIMasDos, i)));
         }
     }
 
-    resultadoDerivada=(-(xIMasDosEvaluado)+(8*xIMasUnoEvaluado)-(8*xIMenosUnoEvaluado)+(xIMenosDosEvaluado)) / (12*hTamañodepaso);
+    resultadoDerivada = (-(xIMasDosEvaluado) + (8 * xIMasUnoEvaluado) - (8 * xIMenosUnoEvaluado) + (xIMenosDosEvaluado)) / (12 * hTamañodepaso);
 
     cout << "El resultado de la derivada es: " << resultadoDerivada << endl;
 }
