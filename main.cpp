@@ -715,79 +715,96 @@ void aritmeticaFracciones()
 // Movimiento Rectilineo Uniforme
 void movimientoRectilineoUniforme()
 {
-    double posicionF = 0, posicionI = 0, velocidad = 0, tiempo = 0;
+    double* PTRVARIABLES = new double[4];
+    // 0 posicionF, 1 posicionI, 2 velocidad, 3 tiempo
 
     cout << "Introduce la posicion inicial (en m): ";
-    cin >> posicionI;
+    cin >> PTRVARIABLES[1];
     cout << "Introduce la velocidad (en m/s):";
-    cin >> velocidad;
+    cin >> PTRVARIABLES[2];
     cout << "Introduce el tiempo (en s): ";
-    cin >> tiempo;
+    cin >> PTRVARIABLES[3];
 
-    posicionF = posicionI + (velocidad * tiempo);
-    cout << "La posicion final es: " << posicionF << " m" << endl;
+    PTRVARIABLES[0] = PTRVARIABLES[1] + (PTRVARIABLES[2] * PTRVARIABLES[3]);
+    cout << "La posicion final es: " << PTRVARIABLES[0] << " m" << endl;
+    delete [] PTRVARIABLES ;
 }
 
 void movimientoRectilineoUniformementeAcelerado()
 {
-    double posicionF = 0, velocidadF = 0, posicionI = 0, velocidadI = 0, aceleracion = 0, tiempo = 0;
-    cout << "Introduce la posicion inicial (en m): ";
-    cin >> posicionI;
-    cout << "Introduce la velocidad inicial (en m/s): ";
-    cin >> velocidadI;
-    cout << "Introduce la aceleracion (en m/s^2): ";
-    cin >> aceleracion;
-    cout << "Introduce el tiempo (en s): ";
-    cin >> tiempo;
+    double* PTRVARIABLES = new double[6];
+    //0 posicionF, 1 velocidadF, 2 posicionI, 3 velocidadI, 4 aceleracion, 5 tiempo
 
-    posicionF = posicionI + (velocidadI * tiempo) + ((aceleracion * pow(tiempo, 2)) / 2);
-    velocidadF = velocidadI + (aceleracion * tiempo);
-    cout << "La posicion final es: " << posicionF << " m" << endl;
-    cout << "La velocidad final es: " << velocidadF << " m/s" << endl;
+    cout << "Introduce la posicion inicial (en m): ";
+    cin >> PTRVARIABLES[2];
+    cout << "Introduce la velocidad inicial (en m/s): ";
+    cin >> PTRVARIABLES[3];
+    cout << "Introduce la aceleracion (en m/s^2): ";
+    cin >> PTRVARIABLES[4];
+    cout << "Introduce el tiempo (en s): ";
+    cin >> PTRVARIABLES[5];
+
+    PTRVARIABLES[0] = PTRVARIABLES[2] + (PTRVARIABLES[3] * PTRVARIABLES[5]) + ((PTRVARIABLES[4] * pow(PTRVARIABLES[5], 2)) / 2);
+    PTRVARIABLES[1] = PTRVARIABLES[3] + (PTRVARIABLES[4] * PTRVARIABLES[5]);
+    cout << "La posicion final es: " << PTRVARIABLES[0] << " m" << endl;
+    cout << "La velocidad final es: " << PTRVARIABLES[1] << " m/s" << endl;
+    delete [] PTRVARIABLES ;
 }
 
 void velocidadMovimientoCircularUniforme()
 {
-    double velocidad = 0, velocidadAngular = 0, radioCurvatura = 0;
-    cout << "Introduce la velocidad angular (en rad/s): ";
-    cin >> velocidadAngular;
-    cout << "Introduce el radio de curvatura (en m): ";
-    cin >> radioCurvatura;
+    double* PTRVARIABLES=new double[3];
+    //0 velocidad, 1 velocidadAngular, 2 radioCurvatura
 
-    velocidad = (velocidadAngular * radioCurvatura);
-    cout << "La velocidad es: " << velocidad << " m/s" << endl;
+    cout << "Introduce la velocidad angular (en rad/s): ";
+    cin >> PTRVARIABLES[1];
+    cout << "Introduce el radio de curvatura (en m): ";
+    cin >> PTRVARIABLES[2];
+
+    PTRVARIABLES[0] = (PTRVARIABLES[1] * PTRVARIABLES[2]);
+    cout << "La velocidad es: " << PTRVARIABLES[0] << " m/s" << endl;
+    delete [] PTRVARIABLES ;
 }
 
 void velocidadAngularMovimientoCircularUniforme()
 {
-    double velocidadAngular = 0, frecuencia = 0;
-    cout << "Introduce la frecuencia (en Hz): ";
-    cin >> frecuencia;
+    double* PTRVARIABLES=new double[2];
+    //0 velocidadAngular, 1 frecuecia
 
-    velocidadAngular = ((2 * M_PI) * frecuencia);
-    cout << "La velocidad angular es: " << velocidadAngular << " m/s" << endl;
+    cout << "Introduce la frecuencia (en Hz): ";
+    cin >> PTRVARIABLES[1];
+
+    PTRVARIABLES[0] = ((2 * M_PI) * PTRVARIABLES[1]);
+    cout << "La velocidad angular es: " << PTRVARIABLES[0] << " m/s" << endl;
+    delete [] PTRVARIABLES ;
 }
 
 void periodoMovimientoCircularUniforme()
 {
-    double periodo = 0, frecuencia = 0;
-    cout << "Introduce la frecuencia (en Hz): ";
-    cin >> frecuencia;
+    double* PTRVARIABLES=new double[2];
+    //0 periodo, 1 frecuecia
 
-    periodo = 1 / frecuencia;
-    cout << "El periodo es: " << periodo << " s" << endl;
+    cout << "Introduce la frecuencia (en Hz): ";
+    cin >> PTRVARIABLES[1];
+
+    PTRVARIABLES[0] = 1 / PTRVARIABLES[1];
+    cout << "El periodo es: " << PTRVARIABLES[0] << " s" << endl;
+    delete [] PTRVARIABLES ;
 }
 
 void aceleracionCentripetaMovimientoCircularUniforme()
 {
-    double aceleracionCentripeta = 0, velocidad = 0, radio = 0;
-    cout << "Introduce la velocidad (en m/s): ";
-    cin >> velocidad;
-    cout << "Introduce el radio de la curvatura (en m): ";
-    cin >> radio;
+    double* PTRVARIABLES=new double[3];
+    //0 aceleracionCentripeta, 1 velocidad, 2 radio
 
-    aceleracionCentripeta = (pow(velocidad, 2)) / radio;
-    cout << "La aceleracion centripeta es: " << aceleracionCentripeta << " m/s^2" << endl;
+    cout << "Introduce la velocidad (en m/s): ";
+    cin >> PTRVARIABLES[1];
+    cout << "Introduce el radio de la curvatura (en m): ";
+    cin >> PTRVARIABLES[2];
+
+    PTRVARIABLES[0] = (pow(PTRVARIABLES[1], 2)) / PTRVARIABLES[2];
+    cout << "La aceleracion centripeta es: " << PTRVARIABLES[0] << " m/s^2" << endl;
+    delete [] PTRVARIABLES ;
 }
 
 void velocidadesXY_TiroParabolico()
@@ -816,156 +833,193 @@ void velocidadesXY_TiroParabolico()
 
 void velocidadInicialY_TiroParabolico()
 {
-    double velocidadIY = 0, velocidadI = 0, angulo = 0, anguloRad = 0;
+    double* PTRVARIABLES=new double[4];
+    //0 velocidadIY, 1 velocidadI, 2 angulo, 3 anguloRad
+
     cout << "Introduce la velocidad inicial (en m/s): ";
-    cin >> velocidadI;
+    cin >> PTRVARIABLES[1];
     cout << "Introduce el angulo: ";
-    cin >> angulo;
+    cin >> PTRVARIABLES[2];
 
-    anguloRad = (angulo * M_PI) / 180;
+    PTRVARIABLES[3] = (PTRVARIABLES[2] * M_PI) / 180;
 
-    velocidadIY = velocidadI * sin(anguloRad);
-    cout << "La velocidad inicial en el eje Y es: " << velocidadIY << " m/s" << endl;
+    PTRVARIABLES[0] = PTRVARIABLES[1] * sin(PTRVARIABLES[3]);
+    cout << "La velocidad inicial en el eje Y es: " << PTRVARIABLES[0] << " m/s" << endl;
+    delete [] PTRVARIABLES ;
 }
 
 void alturaMaximaTiroParabolico()
 {
-    double alturaMaxima = 0, velocidadI = 0, angulo = 0, anguloRad = 0;
+
+    double* PTRVARIABLES=new double[4];
+    //0 alturaMaxima, 1 velocidadI, 2 angulo, 3 anguloRad
+
     cout << "Introduce la velocidad inicial (en m/s): ";
-    cin >> velocidadI;
+    cin >> PTRVARIABLES[1];
     cout << "Introduce el angulo de la direccion de lanzamiento: ";
-    cin >> angulo;
+    cin >> PTRVARIABLES[2];
 
-    anguloRad = (angulo * M_PI) / 180;
+    PTRVARIABLES[3] = (PTRVARIABLES[2] * M_PI) / 180;
 
-    alturaMaxima = ((pow(velocidadI, 2)) * (pow(sin(anguloRad), 2))) / (2 * 9.81);
-    cout << "La altura maxima es: " << alturaMaxima << " m" << endl;
+    PTRVARIABLES[0] = ((pow(PTRVARIABLES[1], 2)) * (pow(sin(PTRVARIABLES[3]), 2))) / (2 * 9.81);
+    cout << "La altura maxima es: " << PTRVARIABLES[0] << " m" << endl;
+    delete [] PTRVARIABLES ;
 }
 
 void alcanceTiroParabolico()
 {
-    double alturaMaxima = 0, velocidadI = 0, angulo = 0, anguloRad = 0;
+    double* PTRVARIABLES=new double[4];
+    //0 alturaMaxima, 1 velocidadI, 2 angulo, 3 anguloRad
+
     cout << "Introduce la velocidad inicial (en m/s): ";
-    cin >> velocidadI;
+    cin >> PTRVARIABLES[1];
     cout << "Introduce el angulo de la direccion de lanzamiento: ";
-    cin >> angulo;
+    cin >> PTRVARIABLES[2];
 
-    anguloRad = (angulo * M_PI) / 180;
+    PTRVARIABLES[3] = (PTRVARIABLES[2] * M_PI) / 180;
 
-    alturaMaxima = ((pow(velocidadI, 2)) * (pow(sin(anguloRad), 2))) / (9.81);
-    cout << "La altura maxima es: " << alturaMaxima << " m" << endl;
+    PTRVARIABLES[0] = ((pow(PTRVARIABLES[1], 2)) * (pow(sin(PTRVARIABLES[3]), 2))) / (9.81);
+    cout << "La altura maxima es: " << PTRVARIABLES[0] << " m" << endl;
+    delete [] PTRVARIABLES ;
 }
 
 void fuerza()
 {
-    double fuerza = 0, masa = 0, aceleracion = 0;
-    cout << "Introduce la masa (en kg): ";
-    cin >> masa;
-    cout << "Introduce la aceleracion (en m/s^2): ";
-    cin >> aceleracion;
+    double* PTRVARIABLES=new double[3];
+    //0 fuerza, 1 masa, 2 aceleracion
 
-    fuerza = masa * aceleracion;
-    cout << "La fuerza resultante es: " << fuerza << " N" << endl;
+    cout << "Introduce la masa (en kg): ";
+    cin >> PTRVARIABLES[1];
+    cout << "Introduce la aceleracion (en m/s^2): ";
+    cin >> PTRVARIABLES[2];
+
+    PTRVARIABLES[0] = PTRVARIABLES[1] * PTRVARIABLES[2];
+    cout << "La fuerza resultante es: " << PTRVARIABLES[0] << " N" << endl;
+    delete [] PTRVARIABLES ;
 }
 
 void peso()
 {
-    double peso = 0, masa = 0;
-    cout << "Introduce la masa (en Kg): ";
-    cin >> masa;
+    const double ConstanteGravitatoria=9.81;
+    double* PTRVARIABLES=new double[2];
+    //0 peso, 1 masa
 
-    peso = masa * 9.81;
-    cout << "El peso es: " << peso << " N" << endl;
+    cout << "Introduce la masa (en Kg): ";
+    cin >> PTRVARIABLES[1];
+
+    PTRVARIABLES[0] = PTRVARIABLES[1] * ConstanteGravitatoria;
+    cout << "El peso es: " << PTRVARIABLES[0] << " N" << endl;
+    delete [] PTRVARIABLES ;
 }
 
 void friccion()
 {
-    double fuerzaFriccion = 0, coeficienteRoce = 0, fuerzaNormal = 0;
-    cout << "Introduce el coeficiente de friccion: ";
-    cin >> coeficienteRoce;
-    cout << "Introduce la fuerza normal (en N): ";
-    cin >> fuerzaNormal;
+    double* PTRVARIABLES=new double[3];
+    //0 fuerzaFriccion, 1 coeficienteRoce, 2 fuerzaNormal
 
-    fuerzaFriccion = fuerzaNormal * coeficienteRoce;
-    cout << "La fuerza de friccion es: " << fuerzaFriccion << " N" << endl;
+    cout << "Introduce el coeficiente de friccion: ";
+    cin >> PTRVARIABLES[1];
+    cout << "Introduce la fuerza normal (en N): ";
+    cin >> PTRVARIABLES[2];
+
+    PTRVARIABLES[0] = PTRVARIABLES[2] * PTRVARIABLES[1];
+    cout << "La fuerza de friccion es: " << PTRVARIABLES[0] << " N" << endl;
+    delete [] PTRVARIABLES ;
 }
 
 void fuerzaElastica()
 {
-    double fuerzaElastica = 0, constanteElasticaResorte = 0, deformacionResorte = 0;
+    double* PTRVARIABLES=new double[3];
+    //0 fuerzaElastica, 1 constanteElasticaResorte, 2 deformacionResorte
+    
     cout << "Introduce la constante elastica del resorte (en N/m): ";
-    cin >> constanteElasticaResorte;
+    cin >> PTRVARIABLES[1];
     cout << "Introduce la deformacion del resorte (en m): ";
-    cin >> deformacionResorte;
+    cin >> PTRVARIABLES[2];
 
-    fuerzaElastica = constanteElasticaResorte * deformacionResorte;
-    cout << "La fuerza elastica es: " << fuerzaElastica << " N" << endl;
+    PTRVARIABLES[0] = PTRVARIABLES[1] * PTRVARIABLES[2];
+    cout << "La fuerza elastica es: " << PTRVARIABLES[0] << " N" << endl;
+    delete [] PTRVARIABLES ;
 }
 
 void trabajo()
 {
-    double trabajo = 0, fuerza = 0, desplazamiento = 0, angulo = 0, anguloRad = 0;
+    double* PTRVARIABLES=new double[5];
+    //0 trabajo, 1 fuerza, 2 desplazamiento, 3 angulo, 4 anguloRad
+    
     cout << "Introduce la fuerza (en N): ";
-    cin >> fuerza;
+    cin >> PTRVARIABLES[1];
     cout << "Introduce el desplazamiento (en m): ";
-    cin >> desplazamiento;
+    cin >> PTRVARIABLES[2];
     cout << "Introduce el angulo entre la direccion de la fuerza y el desplazamiento: ";
-    cin >> angulo;
+    cin >> PTRVARIABLES[3];
 
-    anguloRad = (angulo * M_PI) / 180;
+    PTRVARIABLES[4] = (PTRVARIABLES[3] * M_PI) / 180;
 
-    trabajo = fuerza * desplazamiento * cos(anguloRad);
-    cout << "EL trabajo es: " << trabajo << " J" << endl;
+    PTRVARIABLES[0] = PTRVARIABLES[1] * PTRVARIABLES[2] * cos(PTRVARIABLES[4]);
+    cout << "EL trabajo es: " << PTRVARIABLES[0] << " J" << endl;
+    delete [] PTRVARIABLES ;
 }
 
 void energiaCinetica()
 {
-    double energiaCinetica = 0, masa = 0, velocidad = 0;
+    double* PTRVARIABLES=new double[3];
+    //0 energiaCinetica, 1 masa, 2 velocidad
+    
     cout << "Introduce la masa (en kg): ";
-    cin >> masa;
+    cin >> PTRVARIABLES[1];
     cout << "Introduce la velocidad (en m/s): ";
-    cin >> velocidad;
+    cin >> PTRVARIABLES[2];
 
-    energiaCinetica = (masa / 2) * (pow(velocidad, 2));
-    cout << "La energia cinetica es: " << energiaCinetica << " J" << endl;
+    PTRVARIABLES[0] = (PTRVARIABLES[1] / 2) * (pow(PTRVARIABLES[2], 2));
+    cout << "La energia cinetica es: " << PTRVARIABLES[0] << " J" << endl;
+    delete [] PTRVARIABLES ;
 }
 
 void energiaPotencial()
 {
-    double energiaPotencial = 0, masa = 0, altura = 0;
+    double* PTRVARIABLES=new double[3];
+    //0 energiaPotencial, 1 masa, 2 altura 
+    
     cout << "Introduce la masa (en kg): ";
-    cin >> masa;
+    cin >> PTRVARIABLES[1];
     cout << "Introduce la altura (en m): ";
-    cin >> altura;
+    cin >> PTRVARIABLES[2];
 
-    energiaPotencial = masa * altura * 9.81;
-    cout << "La energia potencial es: " << energiaPotencial << " J" << endl;
+    PTRVARIABLES[0] = PTRVARIABLES[1] * PTRVARIABLES[2] * 9.81;
+    cout << "La energia potencial es: " << PTRVARIABLES[0] << " J" << endl;
+    delete [] PTRVARIABLES ;
 }
 
 void energiaPotencialElastica()
 {
-    double energiaPotencialElastica = 0, constanteElastica = 0, deformacionResorte = 0;
+    double* PTRVARIABLES=new double[3];
+    //0 energiaPotencialElastica, 1 constanteElastica, 2 deformacionResorte 
+    
     cout << "Introduce la constante elastica del resorte (en N/m): ";
-    cin >> constanteElastica;
+    cin >> PTRVARIABLES[1];
     cout << "Introduce la deformacion del resorte (en m): ";
-    cin >> deformacionResorte;
+    cin >> PTRVARIABLES[2];
 
-    energiaPotencialElastica = (constanteElastica / 2) * (pow(deformacionResorte, 2));
-    cout << "La energia potencial elastica es: " << energiaPotencialElastica << " J" << endl;
+    PTRVARIABLES[0] = (PTRVARIABLES[1] / 2) * (pow(PTRVARIABLES[2], 2));
+    cout << "La energia potencial elastica es: " << PTRVARIABLES[0] << " J" << endl;
+    delete [] PTRVARIABLES ;
 }
 
 void potencia()
 {
-    double potencia = 0, trabajo = 0, tiempo = 0;
+    double* PTRVARIABLES=new double[3];
+    //0 potencia , 1 trabajo, 2 tiempo
+    
     cout << "Introduce la cantidad e trabajo (en J): ";
-    cin >> trabajo;
+    cin >> PTRVARIABLES[1];
     cout << "Introduce el intervalo de tiempo (en s): ";
-    cin >> tiempo;
+    cin >> PTRVARIABLES[2];
 
-    potencia = trabajo / tiempo;
-    cout << "La potencia es: " << potencia << " Watts" << endl;
+    PTRVARIABLES[0] = PTRVARIABLES[1] / PTRVARIABLES[2];
+    cout << "La potencia es: " << PTRVARIABLES[0] << " Watts" << endl;
+    delete [] PTRVARIABLES ;
 }
-
 /*
 =======================
 ***METODOS NUMERICOS***
