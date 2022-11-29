@@ -4,7 +4,7 @@
         @Victor Daniel Chávez Medina
         @Erick Fernando Nevarez Avila
         @Emiliano Loya Flores
-        @Luis Alan Martinez Garcia
+        @Luis Alan Martinez Garcia (Se comentaron con el profesor cuestiones referentes a este alumno)
     "No hemos brindado ni recibido asistencia no autorizada en este proyecto."
 */
 #include <iostream>
