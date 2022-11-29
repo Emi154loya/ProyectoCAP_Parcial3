@@ -221,6 +221,7 @@ int main()
                     formulaGral();
                     break;
                 default:
+                    throw invalid_argument("!!! ERROR: Esa opcion no esta en el menu !!!");
                     break;
                 }
                 break;
@@ -252,6 +253,7 @@ int main()
                         volumenTroncoCono();
                         break;
                     default:
+                        throw invalid_argument("!!! ERROR: Esa opcion no esta en el menu !!!");
                         break;
                     }
                     break;
@@ -278,6 +280,7 @@ int main()
                         break;
 
                     default:
+                        throw invalid_argument("!!! ERROR: Esa opcion no esta en el menu !!!");
                         break;
                     }
                     break;
@@ -298,11 +301,13 @@ int main()
                         break;
 
                     default:
+                        throw invalid_argument("!!! ERROR: Esa opcion no esta en el menu !!!");
                         break;
                     }
                     break;
 
                 default:
+                    throw invalid_argument("!!! ERROR: Esa opcion no esta en el menu !!!");
                     break;
                 }
                 break;
@@ -323,6 +328,7 @@ int main()
                     break;
 
                 default:
+                    throw invalid_argument("!!! ERROR: Esa opcion no esta en el menu !!!");
                     break;
                 }
                 break;
@@ -372,6 +378,7 @@ int main()
                         aceleracionCentripetaMovimientoCircularUniforme();
                         break;
                     default:
+                        throw invalid_argument("!!! ERROR: Esa opcion no esta en el menu !!!");
                         break;
                     }
                     break;
@@ -399,6 +406,7 @@ int main()
                         break;
 
                     default:
+                        throw invalid_argument("!!! ERROR: Esa opcion no esta en el menu !!!");
                         break;
                     }
                     break;
@@ -430,6 +438,7 @@ int main()
                     potencia();
                     break;
                 default:
+                    throw invalid_argument("!!! ERROR: Esa opcion no esta en el menu !!!");
                     break;
                 }
                 break;
@@ -444,11 +453,16 @@ int main()
                     derivacionFuncionEvaluada();
                     break;
                 default:
+                    throw invalid_argument("!!! ERROR: Esa opcion no esta en el menu !!!");
                     break;
                 }
                 break;
 
+            case 6:
+                break;
+                
             default:
+                throw invalid_argument("!!! ERROR: Esa opcion no esta en el menu !!!");
                 break;
             }
         }
