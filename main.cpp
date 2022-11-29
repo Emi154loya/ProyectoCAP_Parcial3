@@ -61,6 +61,15 @@ void energiaPotencialElastica();
 void potencia();
 // Metodos Numericos
 void derivacionFuncionEvaluada();
+// Operaciones Simples
+void Suma (int a, int b, int Result);
+void Suma (double a, double b, double Result);
+void Resta (int a, int b, int Result);
+void Resta (double a, double b, double Result);
+void Multiplicacion (int a, int b, int Result);
+void Multiplicacion (double a, double b, double Result);
+void Division (int a, int b, int Result);
+void Division (double a, double b, double Result);
 
 // Mutex Guard
 mutex guardia;
@@ -198,6 +207,10 @@ int main()
     int choice2 = 0;
     int choice3 = 0;
 
+    //Variables para Operaciones Simples
+    int aI=0 ,bI=0 ,ResultI=0;
+    double aD=0 ,bD=0 ,ResultD=0;
+    
     // do while para ciclar el menu
     do
     {
@@ -212,7 +225,8 @@ int main()
             cout << "[3] Aritmetica" << endl;
             cout << "[4] Fisica" << endl;
             cout << "[5] Metodos Numericos" << endl;
-            cout << "[6] Salir" << endl;
+            cout << "[6] Operaciones simples" << endl;
+            cout << "[7] Salir" << endl;
             cin >> choice;
 
             // Switch para desplegar segundo menu
@@ -467,8 +481,82 @@ int main()
                 break;
 
             case 6:
+                cout << "====== Operaciones Simples ======" << endl;
+                cout << "[1] Suma Enteros" << endl;
+                cout << "[2] Suma con decimales" << endl;
+                cout << "[3] Resta Enteros" << endl;
+                cout << "[4] Resta con decimales" << endl;
+                cout << "[5] Multiplicacion Enteros" << endl;
+                cout << "[6] Multiplicacion con decimales" << endl;
+                cout << "[7] Division Enteros" << endl;
+                cout << "[8] Division con decimales" << endl;
+                cin >> choice2;
+                switch(choice2)
+                {
+                case 1:
+                    cout<<"Favor de introducir el primer valor"<<endl;
+                    cin>>aI;
+                    cout<<"Favor de introducir el segundo valor"<<endl;
+                    cin>>bI;
+                    Suma(aI,bI,ResultI);
+                    break;
+                case 2:
+                    cout<<"Favor de introducir el primer valor"<<endl;
+                    cin>>aI;
+                    cout<<"Favor de introducir el segundo valor"<<endl;
+                    cin>>bI;
+                    Suma(aD,bD,ResultD);
+                    break;
+                case 3:
+                    cout<<"Favor de introducir el primer valor"<<endl;
+                    cin>>aI;
+                    cout<<"Favor de introducir el segundo valor"<<endl;
+                    cin>>bI;
+                    Resta(aI,bI,ResultI);
+                    break;
+                case 4:
+                    cout<<"Favor de introducir el primer valor"<<endl;
+                    cin>>aI;
+                    cout<<"Favor de introducir el segundo valor"<<endl;
+                    cin>>bI;
+                    Resta(aD,bD,ResultD);
+                    break;
+                case 5:
+                    cout<<"Favor de introducir el primer valor"<<endl;
+                    cin>>aI;
+                    cout<<"Favor de introducir el segundo valor"<<endl;
+                    cin>>bI;
+                    Multiplicacion(aI,bI,ResultI);
+                    break;
+                case 6:
+                    cout<<"Favor de introducir el primer valor"<<endl;
+                    cin>>aI;
+                    cout<<"Favor de introducir el segundo valor"<<endl;
+                    cin>>bI;
+                    Multiplicacion(aD,bD,ResultD);
+                    break;
+                case 7:
+                    cout<<"Favor de introducir el primer valor"<<endl;
+                    cin>>aI;
+                    cout<<"Favor de introducir el segundo valor"<<endl;
+                    cin>>bI;
+                    Division(aI,bI,ResultI);
+                    break;
+                case 8:
+                    cout<<"Favor de introducir el primer valor"<<endl;
+                    cin>>aI;
+                    cout<<"Favor de introducir el segundo valor"<<endl;
+                    cin>>bI;
+                    Division(aD,bD,ResultD);
+                    break;
+                default:
+                    throw invalid_argument("!!! ERROR: Esa opcion no esta en el menu !!!");
+                    break;
+                }
                 break;
 
+            case 7:
+                break;
             default:
                 throw invalid_argument("!!! ERROR: Esa opcion no esta en el menu !!!");
                 break;
@@ -495,7 +583,7 @@ int main()
             cout << e.what() << endl;
         }
 
-    } while (choice != 6);
+    } while (choice != 7);
 
     return 0;
 }
@@ -1329,4 +1417,51 @@ void derivacionFuncionEvaluada()
     resultadoDerivada = (-(xIMasDosEvaluado) + (8 * xIMasUnoEvaluado) - (8 * xIMenosUnoEvaluado) + (xIMenosDosEvaluado)) / (12 * hTamañodepaso);
 
     cout << "El resultado de la derivada es: " << resultadoDerivada << endl;
+}
+
+/*
+=======================
+***OPERACIONES SIMPLES***
+=======================
+*/
+
+
+void Suma (int a, int b, int Result){
+    Result = a+b;
+    cout<<"El resultado de tu suma es "<<Result;
+}
+
+void Suma (double a, double b, double Result){
+    Result = a+b;
+    cout<<"El resultado de tu suma es "<<Result;
+}
+
+void Resta (int a, int b, int Result){
+    Result = a-b;
+    cout<<"El resultado de tu resta es "<<Result;
+}
+
+void Resta (double a, double b, double Result){
+    Result = a-b;
+    cout<<"El resultado de tu resta es "<<Result;
+}
+
+void Multiplicacion (int a, int b, int Result){
+    Result = a*b;
+    cout<<"El resultado de tu Multiplicacion es "<<Result;
+}
+
+void Multiplicacion (double a, double b, double Result){
+    Result = a*b;
+    cout<<"El resultado de tu Multiplicacion es "<<Result;
+}
+
+void Division (int a, int b, int Result){
+    Result = a/b;
+    cout<<"El resultado de tu Division es "<<Result;
+}
+
+void Division (double a, double b, double Result){
+    Result = a/b;
+    cout<<"El resultado de tu Division es "<<Result;
 }
