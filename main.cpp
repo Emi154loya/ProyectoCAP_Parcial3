@@ -78,6 +78,20 @@ struct ExcepcionVolumenNegativo : public exception
         return "!!! ERROR: El volumen es negativo, no se puede resolver la ecuacion !!!";
     }
 };
+struct ExcepcionTiempoNegativo : public exception
+{
+    const char *what() const throw()
+    {
+        return "!!! ERROR: El tiempo es negativo, no se puede resolver la operacion !!!";
+    }
+};
+struct ExcepcionMasaNegativa : public exception
+{
+    const char *what() const throw()
+    {
+        return "!!! ERROR: La masa es negativa, no se puede resolver la operacion !!!";
+    }
+};
 struct Fraccion
 {
     int numerador = 0, denominador = 0;
@@ -434,6 +448,14 @@ int main()
         {
             cout << excepcionVolumenNegativo.what() << endl;
         }
+        catch (ExcepcionTiempoNegativo &excepcionTiempoNegativo)
+        {
+            cout << excepcionTiempoNegativo.what() << endl;
+        }
+        catch (ExcepcionMasaNegativa &excepcionMasaNegativa)
+        {
+            cout << excepcionMasaNegativa.what() << endl;
+        }
         catch (invalid_argument &ia)
         {
             cout << ia.what() << endl;
@@ -715,7 +737,7 @@ void aritmeticaFracciones()
 // Movimiento Rectilineo Uniforme
 void movimientoRectilineoUniforme()
 {
-    double* PTRVARIABLES = new double[4];
+    double *PTRVARIABLES = new double[4];
     // 0 posicionF, 1 posicionI, 2 velocidad, 3 tiempo
 
     cout << "Introduce la posicion inicial (en m): ";
@@ -725,15 +747,21 @@ void movimientoRectilineoUniforme()
     cout << "Introduce el tiempo (en s): ";
     cin >> PTRVARIABLES[3];
 
+    if (PTRVARIABLES[3] < 0)
+    {
+        delete[] PTRVARIABLES;
+        throw ExcepcionTiempoNegativo();
+    }
+
     PTRVARIABLES[0] = PTRVARIABLES[1] + (PTRVARIABLES[2] * PTRVARIABLES[3]);
     cout << "La posicion final es: " << PTRVARIABLES[0] << " m" << endl;
-    delete [] PTRVARIABLES ;
+    delete[] PTRVARIABLES;
 }
 
 void movimientoRectilineoUniformementeAcelerado()
 {
-    double* PTRVARIABLES = new double[6];
-    //0 posicionF, 1 velocidadF, 2 posicionI, 3 velocidadI, 4 aceleracion, 5 tiempo
+    double *PTRVARIABLES = new double[6];
+    // 0 posicionF, 1 velocidadF, 2 posicionI, 3 velocidadI, 4 aceleracion, 5 tiempo
 
     cout << "Introduce la posicion inicial (en m): ";
     cin >> PTRVARIABLES[2];
@@ -744,17 +772,23 @@ void movimientoRectilineoUniformementeAcelerado()
     cout << "Introduce el tiempo (en s): ";
     cin >> PTRVARIABLES[5];
 
+    if (PTRVARIABLES[5] < 0)
+    {
+        delete[] PTRVARIABLES;
+        throw ExcepcionTiempoNegativo();
+    }
+
     PTRVARIABLES[0] = PTRVARIABLES[2] + (PTRVARIABLES[3] * PTRVARIABLES[5]) + ((PTRVARIABLES[4] * pow(PTRVARIABLES[5], 2)) / 2);
     PTRVARIABLES[1] = PTRVARIABLES[3] + (PTRVARIABLES[4] * PTRVARIABLES[5]);
     cout << "La posicion final es: " << PTRVARIABLES[0] << " m" << endl;
     cout << "La velocidad final es: " << PTRVARIABLES[1] << " m/s" << endl;
-    delete [] PTRVARIABLES ;
+    delete[] PTRVARIABLES;
 }
 
 void velocidadMovimientoCircularUniforme()
 {
-    double* PTRVARIABLES=new double[3];
-    //0 velocidad, 1 velocidadAngular, 2 radioCurvatura
+    double *PTRVARIABLES = new double[3];
+    // 0 velocidad, 1 velocidadAngular, 2 radioCurvatura
 
     cout << "Introduce la velocidad angular (en rad/s): ";
     cin >> PTRVARIABLES[1];
@@ -763,39 +797,39 @@ void velocidadMovimientoCircularUniforme()
 
     PTRVARIABLES[0] = (PTRVARIABLES[1] * PTRVARIABLES[2]);
     cout << "La velocidad es: " << PTRVARIABLES[0] << " m/s" << endl;
-    delete [] PTRVARIABLES ;
+    delete[] PTRVARIABLES;
 }
 
 void velocidadAngularMovimientoCircularUniforme()
 {
-    double* PTRVARIABLES=new double[2];
-    //0 velocidadAngular, 1 frecuecia
+    double *PTRVARIABLES = new double[2];
+    // 0 velocidadAngular, 1 frecuecia
 
     cout << "Introduce la frecuencia (en Hz): ";
     cin >> PTRVARIABLES[1];
 
     PTRVARIABLES[0] = ((2 * M_PI) * PTRVARIABLES[1]);
     cout << "La velocidad angular es: " << PTRVARIABLES[0] << " m/s" << endl;
-    delete [] PTRVARIABLES ;
+    delete[] PTRVARIABLES;
 }
 
 void periodoMovimientoCircularUniforme()
 {
-    double* PTRVARIABLES=new double[2];
-    //0 periodo, 1 frecuecia
+    double *PTRVARIABLES = new double[2];
+    // 0 periodo, 1 frecuecia
 
     cout << "Introduce la frecuencia (en Hz): ";
     cin >> PTRVARIABLES[1];
 
     PTRVARIABLES[0] = 1 / PTRVARIABLES[1];
     cout << "El periodo es: " << PTRVARIABLES[0] << " s" << endl;
-    delete [] PTRVARIABLES ;
+    delete[] PTRVARIABLES;
 }
 
 void aceleracionCentripetaMovimientoCircularUniforme()
 {
-    double* PTRVARIABLES=new double[3];
-    //0 aceleracionCentripeta, 1 velocidad, 2 radio
+    double *PTRVARIABLES = new double[3];
+    // 0 aceleracionCentripeta, 1 velocidad, 2 radio
 
     cout << "Introduce la velocidad (en m/s): ";
     cin >> PTRVARIABLES[1];
@@ -804,7 +838,7 @@ void aceleracionCentripetaMovimientoCircularUniforme()
 
     PTRVARIABLES[0] = (pow(PTRVARIABLES[1], 2)) / PTRVARIABLES[2];
     cout << "La aceleracion centripeta es: " << PTRVARIABLES[0] << " m/s^2" << endl;
-    delete [] PTRVARIABLES ;
+    delete[] PTRVARIABLES;
 }
 
 void velocidadesXY_TiroParabolico()
@@ -818,6 +852,11 @@ void velocidadesXY_TiroParabolico()
     cin >> aceleracion;
     cout << "Introduce el intervalo de tiempo (en s): ";
     cin >> tiempo;
+
+    if (tiempo < 0)
+    {
+        throw ExcepcionTiempoNegativo();
+    }
 
     anguloRad = (angulo * M_PI) / 180;
 
@@ -833,8 +872,8 @@ void velocidadesXY_TiroParabolico()
 
 void velocidadInicialY_TiroParabolico()
 {
-    double* PTRVARIABLES=new double[4];
-    //0 velocidadIY, 1 velocidadI, 2 angulo, 3 anguloRad
+    double *PTRVARIABLES = new double[4];
+    // 0 velocidadIY, 1 velocidadI, 2 angulo, 3 anguloRad
 
     cout << "Introduce la velocidad inicial (en m/s): ";
     cin >> PTRVARIABLES[1];
@@ -845,14 +884,13 @@ void velocidadInicialY_TiroParabolico()
 
     PTRVARIABLES[0] = PTRVARIABLES[1] * sin(PTRVARIABLES[3]);
     cout << "La velocidad inicial en el eje Y es: " << PTRVARIABLES[0] << " m/s" << endl;
-    delete [] PTRVARIABLES ;
+    delete[] PTRVARIABLES;
 }
 
 void alturaMaximaTiroParabolico()
 {
-
-    double* PTRVARIABLES=new double[4];
-    //0 alturaMaxima, 1 velocidadI, 2 angulo, 3 anguloRad
+    double *PTRVARIABLES = new double[4];
+    // 0 alturaMaxima, 1 velocidadI, 2 angulo, 3 anguloRad
 
     cout << "Introduce la velocidad inicial (en m/s): ";
     cin >> PTRVARIABLES[1];
@@ -863,13 +901,13 @@ void alturaMaximaTiroParabolico()
 
     PTRVARIABLES[0] = ((pow(PTRVARIABLES[1], 2)) * (pow(sin(PTRVARIABLES[3]), 2))) / (2 * 9.81);
     cout << "La altura maxima es: " << PTRVARIABLES[0] << " m" << endl;
-    delete [] PTRVARIABLES ;
+    delete[] PTRVARIABLES;
 }
 
 void alcanceTiroParabolico()
 {
-    double* PTRVARIABLES=new double[4];
-    //0 alturaMaxima, 1 velocidadI, 2 angulo, 3 anguloRad
+    double *PTRVARIABLES = new double[4];
+    // 0 alturaMaxima, 1 velocidadI, 2 angulo, 3 anguloRad
 
     cout << "Introduce la velocidad inicial (en m/s): ";
     cin >> PTRVARIABLES[1];
@@ -880,42 +918,54 @@ void alcanceTiroParabolico()
 
     PTRVARIABLES[0] = ((pow(PTRVARIABLES[1], 2)) * (pow(sin(PTRVARIABLES[3]), 2))) / (9.81);
     cout << "La altura maxima es: " << PTRVARIABLES[0] << " m" << endl;
-    delete [] PTRVARIABLES ;
+    delete[] PTRVARIABLES;
 }
 
 void fuerza()
 {
-    double* PTRVARIABLES=new double[3];
-    //0 fuerza, 1 masa, 2 aceleracion
+    double *PTRVARIABLES = new double[3];
+    // 0 fuerza, 1 masa, 2 aceleracion
 
     cout << "Introduce la masa (en kg): ";
     cin >> PTRVARIABLES[1];
     cout << "Introduce la aceleracion (en m/s^2): ";
     cin >> PTRVARIABLES[2];
 
+    if (PTRVARIABLES[1] < 0)
+    {
+        delete[] PTRVARIABLES;
+        throw ExcepcionMasaNegativa();
+    }
+
     PTRVARIABLES[0] = PTRVARIABLES[1] * PTRVARIABLES[2];
     cout << "La fuerza resultante es: " << PTRVARIABLES[0] << " N" << endl;
-    delete [] PTRVARIABLES ;
+    delete[] PTRVARIABLES;
 }
 
 void peso()
 {
-    const double ConstanteGravitatoria=9.81;
-    double* PTRVARIABLES=new double[2];
-    //0 peso, 1 masa
+    const double ConstanteGravitatoria = 9.81;
+    double *PTRVARIABLES = new double[2];
+    // 0 peso, 1 masa
 
     cout << "Introduce la masa (en Kg): ";
     cin >> PTRVARIABLES[1];
 
+    if (PTRVARIABLES[1] < 0)
+    {
+        delete[] PTRVARIABLES;
+        throw ExcepcionMasaNegativa();
+    }
+
     PTRVARIABLES[0] = PTRVARIABLES[1] * ConstanteGravitatoria;
     cout << "El peso es: " << PTRVARIABLES[0] << " N" << endl;
-    delete [] PTRVARIABLES ;
+    delete[] PTRVARIABLES;
 }
 
 void friccion()
 {
-    double* PTRVARIABLES=new double[3];
-    //0 fuerzaFriccion, 1 coeficienteRoce, 2 fuerzaNormal
+    double *PTRVARIABLES = new double[3];
+    // 0 fuerzaFriccion, 1 coeficienteRoce, 2 fuerzaNormal
 
     cout << "Introduce el coeficiente de friccion: ";
     cin >> PTRVARIABLES[1];
@@ -924,14 +974,14 @@ void friccion()
 
     PTRVARIABLES[0] = PTRVARIABLES[2] * PTRVARIABLES[1];
     cout << "La fuerza de friccion es: " << PTRVARIABLES[0] << " N" << endl;
-    delete [] PTRVARIABLES ;
+    delete[] PTRVARIABLES;
 }
 
 void fuerzaElastica()
 {
-    double* PTRVARIABLES=new double[3];
-    //0 fuerzaElastica, 1 constanteElasticaResorte, 2 deformacionResorte
-    
+    double *PTRVARIABLES = new double[3];
+    // 0 fuerzaElastica, 1 constanteElasticaResorte, 2 deformacionResorte
+
     cout << "Introduce la constante elastica del resorte (en N/m): ";
     cin >> PTRVARIABLES[1];
     cout << "Introduce la deformacion del resorte (en m): ";
@@ -939,14 +989,14 @@ void fuerzaElastica()
 
     PTRVARIABLES[0] = PTRVARIABLES[1] * PTRVARIABLES[2];
     cout << "La fuerza elastica es: " << PTRVARIABLES[0] << " N" << endl;
-    delete [] PTRVARIABLES ;
+    delete[] PTRVARIABLES;
 }
 
 void trabajo()
 {
-    double* PTRVARIABLES=new double[5];
-    //0 trabajo, 1 fuerza, 2 desplazamiento, 3 angulo, 4 anguloRad
-    
+    double *PTRVARIABLES = new double[5];
+    // 0 trabajo, 1 fuerza, 2 desplazamiento, 3 angulo, 4 anguloRad
+
     cout << "Introduce la fuerza (en N): ";
     cin >> PTRVARIABLES[1];
     cout << "Introduce el desplazamiento (en m): ";
@@ -958,44 +1008,56 @@ void trabajo()
 
     PTRVARIABLES[0] = PTRVARIABLES[1] * PTRVARIABLES[2] * cos(PTRVARIABLES[4]);
     cout << "EL trabajo es: " << PTRVARIABLES[0] << " J" << endl;
-    delete [] PTRVARIABLES ;
+    delete[] PTRVARIABLES;
 }
 
 void energiaCinetica()
 {
-    double* PTRVARIABLES=new double[3];
-    //0 energiaCinetica, 1 masa, 2 velocidad
-    
+    double *PTRVARIABLES = new double[3];
+    // 0 energiaCinetica, 1 masa, 2 velocidad
+
     cout << "Introduce la masa (en kg): ";
     cin >> PTRVARIABLES[1];
     cout << "Introduce la velocidad (en m/s): ";
     cin >> PTRVARIABLES[2];
 
+    if (PTRVARIABLES[1] < 0)
+    {
+        delete[] PTRVARIABLES;
+        throw ExcepcionMasaNegativa();
+    }
+
     PTRVARIABLES[0] = (PTRVARIABLES[1] / 2) * (pow(PTRVARIABLES[2], 2));
     cout << "La energia cinetica es: " << PTRVARIABLES[0] << " J" << endl;
-    delete [] PTRVARIABLES ;
+    delete[] PTRVARIABLES;
 }
 
 void energiaPotencial()
 {
-    double* PTRVARIABLES=new double[3];
-    //0 energiaPotencial, 1 masa, 2 altura 
-    
+    double *PTRVARIABLES = new double[3];
+    // 0 energiaPotencial, 1 masa, 2 altura
+
     cout << "Introduce la masa (en kg): ";
     cin >> PTRVARIABLES[1];
     cout << "Introduce la altura (en m): ";
     cin >> PTRVARIABLES[2];
 
+    if (PTRVARIABLES[1] < 0)
+    {
+        delete[] PTRVARIABLES;
+        throw ExcepcionMasaNegativa();
+    }
+
     PTRVARIABLES[0] = PTRVARIABLES[1] * PTRVARIABLES[2] * 9.81;
     cout << "La energia potencial es: " << PTRVARIABLES[0] << " J" << endl;
-    delete [] PTRVARIABLES ;
+    delete[] PTRVARIABLES;
 }
 
 void energiaPotencialElastica()
 {
-    double* PTRVARIABLES=new double[3];
-    //0 energiaPotencialElastica, 1 constanteElastica, 2 deformacionResorte 
-    
+    double *PTRVARIABLES = new double[3];
+    // 0 energiaPotencialElastica, 1 constanteElastica, 2 deformacionResorte
+
     cout << "Introduce la constante elastica del resorte (en N/m): ";
     cin >> PTRVARIABLES[1];
     cout << "Introduce la deformacion del resorte (en m): ";
@@ -1003,22 +1065,28 @@ void energiaPotencialElastica()
 
     PTRVARIABLES[0] = (PTRVARIABLES[1] / 2) * (pow(PTRVARIABLES[2], 2));
     cout << "La energia potencial elastica es: " << PTRVARIABLES[0] << " J" << endl;
-    delete [] PTRVARIABLES ;
+    delete[] PTRVARIABLES;
 }
 
 void potencia()
 {
-    double* PTRVARIABLES=new double[3];
-    //0 potencia , 1 trabajo, 2 tiempo
-    
+    double *PTRVARIABLES = new double[3];
+    // 0 potencia , 1 trabajo, 2 tiempo
+
     cout << "Introduce la cantidad e trabajo (en J): ";
     cin >> PTRVARIABLES[1];
     cout << "Introduce el intervalo de tiempo (en s): ";
     cin >> PTRVARIABLES[2];
 
+    if (PTRVARIABLES[2] < 0)
+    {
+        delete[] PTRVARIABLES;
+        throw ExcepcionTiempoNegativo();
+    }
+
     PTRVARIABLES[0] = PTRVARIABLES[1] / PTRVARIABLES[2];
     cout << "La potencia es: " << PTRVARIABLES[0] << " Watts" << endl;
-    delete [] PTRVARIABLES ;
+    delete[] PTRVARIABLES;
 }
 /*
 =======================
@@ -1091,13 +1159,13 @@ void derivacionFuncionEvaluada()
     // Ciclo para mostrar la funcion dada por partes ya expresada normalmente
     // El primer ciclo va del numero maximo de grado hasta cero, es decir si es de grado 4, va de  4,3,2,1,0
     // Se le resta una unidad por que los arrays o vectores comienzan del 0
-    for (int i=incognitasYSusCoeficientes.size()-1; i>=0; i--)
+    for (int i = incognitasYSusCoeficientes.size() - 1; i >= 0; i--)
     {
         // Ciclo para repasar cada conjunto de coeficientes de las incognitas de grado n
         // Va de 0 al tamaño del conjunto de coeficientes de la incognita i que esta en el primer ciclo
         // Siguiendo el ejemplo de que es grado 4, en el primer ciclo i va a tener el valor de 3 y en el segundo accesaremos al vector en la posicion 3 del
         // vector principal y obtendremos su tamaño
-        for (int y=0; y<incognitasYSusCoeficientes.at(i).size(); y++)
+        for (int y = 0; y < incognitasYSusCoeficientes.at(i).size(); y++)
         {
 
             // Si el coeficiente es negativo, lo mostraremos tal cual ya que c++ lo muestra con su signo
@@ -1119,7 +1187,7 @@ void derivacionFuncionEvaluada()
     double resultadoDerivada = 0;
 
     // Variables para almacenar el valor de la funcion evaluada con distintos valores
-    double xIMenosUnoEvaluado=0, xIMenosDosEvaluado=0, xIMasUnoEvaluado=0, xIMasDosEvaluado=0;
+    double xIMenosUnoEvaluado = 0, xIMenosDosEvaluado = 0, xIMasUnoEvaluado = 0, xIMasDosEvaluado = 0;
 
     cout << "=========" << endl;
     cout << "Centradas" << endl;
@@ -1129,26 +1197,24 @@ void derivacionFuncionEvaluada()
     cout << "Introduce el tamaño de paso: ";
     cin >> hTamañodepaso;
 
-    
-    xIMenosDos=(xI-(hTamañodepaso*2));
-    xIMenosUno=(xI-(hTamañodepaso*1));
-    xIMasUno=(xI+(hTamañodepaso*1));
-    xIMasDos=(xI+(hTamañodepaso*2));
+    xIMenosDos = (xI - (hTamañodepaso * 2));
+    xIMenosUno = (xI - (hTamañodepaso * 1));
+    xIMasUno = (xI + (hTamañodepaso * 1));
+    xIMasDos = (xI + (hTamañodepaso * 2));
 
     // Ciclo para evaluar la funcion con distintos valores
-    for (int i = incognitasYSusCoeficientes.size()-1; i>=0; i--)
+    for (int i = incognitasYSusCoeficientes.size() - 1; i >= 0; i--)
     {
-        for (int y = 0; y<incognitasYSusCoeficientes.at(i).size(); y++)
+        for (int y = 0; y < incognitasYSusCoeficientes.at(i).size(); y++)
         {
-            xIMenosUnoEvaluado+=((incognitasYSusCoeficientes.at(i).at(y))*(pow(xIMenosUno, i)));
-            xIMenosDosEvaluado+=((incognitasYSusCoeficientes.at(i).at(y))*(pow(xIMenosDos, i)));
-            xIMasUnoEvaluado+=((incognitasYSusCoeficientes.at(i).at(y))*(pow(xIMasUno, i)));
-            xIMasDosEvaluado+=((incognitasYSusCoeficientes.at(i).at(y))*(pow(xIMasDos, i)));
-            
+            xIMenosUnoEvaluado += ((incognitasYSusCoeficientes.at(i).at(y)) * (pow(xIMenosUno, i)));
+            xIMenosDosEvaluado += ((incognitasYSusCoeficientes.at(i).at(y)) * (pow(xIMenosDos, i)));
+            xIMasUnoEvaluado += ((incognitasYSusCoeficientes.at(i).at(y)) * (pow(xIMasUno, i)));
+            xIMasDosEvaluado += ((incognitasYSusCoeficientes.at(i).at(y)) * (pow(xIMasDos, i)));
         }
     }
 
-    resultadoDerivada=(-(xIMasDosEvaluado)+(8*xIMasUnoEvaluado)-(8*xIMenosUnoEvaluado)+(xIMenosDosEvaluado)) / (12*hTamañodepaso);
+    resultadoDerivada = (-(xIMasDosEvaluado) + (8 * xIMasUnoEvaluado) - (8 * xIMenosUnoEvaluado) + (xIMenosDosEvaluado)) / (12 * hTamañodepaso);
 
     cout << "El resultado de la derivada es: " << resultadoDerivada << endl;
 }
