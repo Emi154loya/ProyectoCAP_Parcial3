@@ -473,119 +473,134 @@ void formulaGral()
 // Volumen de un cono
 void volumenCono()
 {
-    double radioBase = 0, altura = 0, volumen = 0;
-
+    double* PTRVARIABLES = new double[3];
+    //0 radiobase, 1 altura, 2 volumen
     cout << "Introduce el radio de la base" << endl;
-    cin >> radioBase;
+    cin >> PTRVARIABLES[0];
     cout << "Introduce la altura" << endl;
-    cin >> altura;
-    volumen = ((M_PI * (pow(radioBase, 2) * altura)) / 3);
+    cin >> PTRVARIABLES[1];
+    PTRVARIABLES[2] = ((M_PI * (pow(PTRVARIABLES[0], 2) * PTRVARIABLES[1])) / 3);
 
-    cout << "El volumen es: " << volumen << endl;
+    cout << "El volumen es: " << PTRVARIABLES[2] << endl;
+    delete [] PTRVARIABLES ;
 }
 
 // Volumen de un tronco de cono
 void volumenTroncoCono()
 {
-    double radioBase = 0, radioBaseMenor = 0, altura = 0, volumen = 0;
 
+    double* PTRVARIABLES = new double[4];
+    // 0 radiobase, 1 radioBaseMenor, 2 altura, 3 volumen
     cout << "Introduce el radio mayor del cono" << endl;
-    cin >> radioBase;
+    cin >> PTRVARIABLES[0];
     cout << "Introduce el radio menor del cono" << endl;
-    cin >> radioBaseMenor;
+    cin >> PTRVARIABLES[1];
     cout << "Introduce la altura del cono" << endl;
-    cin >> altura;
-    volumen = ((altura * M_PI * ((pow(radioBase, 2)) + (pow(radioBaseMenor, 2)) + (radioBase * radioBaseMenor))) / 3);
+    cin >> PTRVARIABLES[2];
+    PTRVARIABLES[3] = ((PTRVARIABLES[2] * M_PI * ((pow(PTRVARIABLES[0], 2)) + (pow(PTRVARIABLES[1], 2)) + (PTRVARIABLES[0] * PTRVARIABLES[1]))) / 3);
 
-    cout << "El volumen es: " << volumen << endl
+    cout << "El volumen es: " << PTRVARIABLES[3] << endl
          << endl;
+    delete [] PTRVARIABLES ;
 }
 
 // Volumen de una esfera
 void volumenEsfera()
 {
-    double radio = 0, volumen = 0;
+    double* PTRVARIABLES = new double[2];
+    //0 radio, 1 volumen
 
     cout << "Introduce el radio de la esfera" << endl;
-    cin >> radio;
-    volumen = ((4 * M_PI * (pow(radio, 3))) / 3);
+    cin >> PTRVARIABLES[0];
+    PTRVARIABLES[1] = ((4 * M_PI * (pow(PTRVARIABLES[0], 3))) / 3);
 
-    cout << "El volumen es: " << volumen << endl
+    cout << "El volumen es: " << PTRVARIABLES[1] << endl
          << endl;
+    delete [] PTRVARIABLES ;
 }
 
 // Volumen de una Piramide Cuadrada
 void volumenPiramideCuadrada()
 {
-    double lado = 0, altura = 0, volumen = 0;
+    double* PTRVARIABLES = new double[3];
+    //0 lado, 1 altura, 2 volumen
 
     cout << "Introduce el lado de la base" << endl;
-    cin >> lado;
+    cin >> PTRVARIABLES[0];
     cout << "Introduce la altura" << endl;
-    cin >> altura;
-    volumen = (((pow(lado, 2)) * altura) / 3);
+    cin >> PTRVARIABLES[1];
+    PTRVARIABLES[2] = (((pow(PTRVARIABLES[0], 2)) * PTRVARIABLES[1]) / 3);
 
-    cout << "El volumen es: " << volumen << endl
+    cout << "El volumen es: " << PTRVARIABLES[2] << endl
          << endl;
+    delete [] PTRVARIABLES ;
 }
 
 // Volumen de un Tetraedro Regular
 void volumenTetraedroRegular()
 {
-    double lado = 0, volumen = 0;
+    double* PTRVARIABLES = new double[2];
+    //0 lado, 1 volumen
 
     cout << "Introduce el lado de la base" << endl;
-    cin >> lado;
-    volumen = ((pow(lado, 3)) * ((sqrt(2)) / 12));
+    cin >> PTRVARIABLES[0];
+    PTRVARIABLES[1] = ((pow(PTRVARIABLES[0], 3)) * ((sqrt(2)) / 12));
 
-    cout << "El volumen es: " << volumen << endl
+    cout << "El volumen es: " << PTRVARIABLES[1] << endl
          << endl;
+    delete [] PTRVARIABLES ;
 }
 
 // Volumen de un Tetraedro con base Regular
 void volumenTetraedroBaseRegular()
 {
-    double lado = 0, altura = 0, volumen = 0;
+    double* PTRVARIABLES = new double[3];
+    //0 lado, 1 altura, 2 volumen
 
     cout << "Introduce el lado de la base" << endl;
-    cin >> lado;
+    cin >> PTRVARIABLES[0];
     cout << "Introduce la altura del tetraedro" << endl;
-    cin >> altura;
+    cin >> PTRVARIABLES[1];
 
-    volumen = (altura * (pow(lado, 2)) * ((sqrt(3)) / 12));
+    PTRVARIABLES[2] = (PTRVARIABLES[1] * (pow(PTRVARIABLES[0], 2)) * ((sqrt(3)) / 12));
 
-    cout << "El volumen es: " << volumen << endl
+    cout << "El volumen es: " << PTRVARIABLES[2] << endl
          << endl;
+    delete [] PTRVARIABLES ;
 }
 
 // Volumen de un casquete usando apotema
 void volumenCasqueteApotema()
 {
-    double altura = 0, apotema = 0, volumen = 0;
+    double* PTRVARIABLES = new double[3];
+    //0 apotema, 1 altura, 2 volumen
 
     cout << "Introduce el radio de la base del casquete (apotema)" << endl;
-    cin >> apotema;
+    cin >> PTRVARIABLES[0];
     cout << "Introduce la altura del casquete" << endl;
-    cin >> altura;
-    volumen = (((M_PI * altura) * ((3 * (pow(apotema, 2))) + (pow(altura, 2)))) / 6);
+    cin >> PTRVARIABLES[1];
+    PTRVARIABLES[2] = (((M_PI * PTRVARIABLES[1]) * ((3 * (pow(PTRVARIABLES[0], 2))) + (pow(PTRVARIABLES[1], 2)))) / 6);
 
-    cout << "El volumen es: " << volumen << endl
+    cout << "El volumen es: " << PTRVARIABLES[2] << endl
          << endl;
+    delete [] PTRVARIABLES ;
 }
 
 // Volumen de un casquete desde el radio de la esfera
 void volumenCasqueteEsfera()
 {
-    double altura = 0, radio = 0, volumen = 0;
+    double* PTRVARIABLES = new double[3];
+    //0 radio, 1 altura, 2 volumen
 
     cout << "Introduce el radio de la esfera" << endl;
-    cin >> radio;
+    cin >> PTRVARIABLES[0];
     cout << "Introduce la altura del casquete" << endl;
-    cin >> altura;
-    volumen = (((M_PI * (pow(altura, 2))) * ((3 * radio) - altura)) / 3);
+    cin >> PTRVARIABLES[1];
+    PTRVARIABLES[2] = (((M_PI * (pow(PTRVARIABLES[1], 2))) * ((3 * PTRVARIABLES[0]) - PTRVARIABLES[1])) / 3);
 
-    cout << "El volumen es: " << volumen << endl
+    cout << "El volumen es: " << PTRVARIABLES[2] << endl
          << endl;
+    delete [] PTRVARIABLES ;
 }
 
 /*
