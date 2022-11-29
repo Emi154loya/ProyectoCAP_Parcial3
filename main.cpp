@@ -16,6 +16,7 @@
 #include <math.h>
 #include <vector>
 #include <future>
+#include <mutex>
 
 using namespace std;
 
@@ -61,15 +62,22 @@ void potencia();
 // Metodos Numericos
 void derivacionFuncionEvaluada();
 
+// Mutex Guard
+mutex guardia;
+
 void velocidadX_TiroParabolico(double &velocidadX, double velocidadI, double angulo)
 {
+    guardia.lock();
     velocidadX = velocidadI * cos(angulo);
+    guardia.unlock();
 }
 void velocidadY_TiroParabolico(double &velocidadY, double velocidadI, double angulo, double aceleracion, double tiempo)
 {
+    guardia.lock();
     double velocidadIY = 0;
     velocidadIY = velocidadI * sin(angulo);
     velocidadY = velocidadIY + (aceleracion * tiempo);
+    guardia.unlock();
 }
 
 // ---- Excepciones personalizadas ----
@@ -460,7 +468,7 @@ int main()
 
             case 6:
                 break;
-                
+
             default:
                 throw invalid_argument("!!! ERROR: Esa opcion no esta en el menu !!!");
                 break;
@@ -750,13 +758,14 @@ void aritmeticaFracciones()
     cout << "La multiplicacion es: " << resultado << endl;
 }
 
-void operacionesBasicas(){
-    //Arreglo de 4 funciones
+void operacionesBasicas()
+{
+    // Arreglo de 4 funciones
     double (*(functions[4]))(double, double) = {suma, resta, multiplicacion, division};
-    
-    double x=0;
-    double y=0;
-    
+
+    double x = 0;
+    double y = 0;
+
     int choice = 0;
 
     cout << "Operacion a realizar:" << endl;
@@ -764,7 +773,7 @@ void operacionesBasicas(){
     cout << "[2] Resta" << endl;
     cout << "[3] Multiplicacion" << endl;
     cout << "[4] Division" << endl;
-    
+
     cin >> choice;
 
     cout << "Ingresa tu primer numero" << endl;
@@ -772,29 +781,32 @@ void operacionesBasicas(){
     cout << "Ingresa tu segundo numero" << endl;
     cin >> y;
 
-    double res=functions[choice-1](x, y);
+    double res = functions[choice - 1](x, y);
     cout << "El resultado de la operacion es: " << res << endl;
-
 }
-double suma(double x, double y){
-    return x+y;
-}
-
-double resta(double x, double y){
-    return x-y;
+double suma(double x, double y)
+{
+    return x + y;
 }
 
-double multiplicacion(double x, double y){
-    return x*y;
+double resta(double x, double y)
+{
+    return x - y;
 }
 
-double division(double x, double y){
-    if (y==0)
+double multiplicacion(double x, double y)
+{
+    return x * y;
+}
+
+double division(double x, double y)
+{
+    if (y == 0)
     {
         throw invalid_argument("!!! ERROR: Se esta intentando dividir entre cero !!!");
     }
-    
-    return x/y;
+
+    return x / y;
 }
 
 /*
@@ -1193,21 +1205,21 @@ void derivacionFuncionEvaluada()
         // Como es un vector temporal, lo estaremos reestableciendo cada vez que se inicie un nuevo ciclo
         vectortemp.clear();
 
-        if (grado==0 && temp ==0)
+        if (grado == 0 && temp == 0)
         {
             throw invalid_argument("!!! ERROR: No hay nada que calcular !!!");
         }
 
-        if (temp==0)
+        if (temp == 0)
         {
             incognitasYSusCoeficientes.push_back(vectortemp);
         }
-        else if (temp>0)
+        else if (temp > 0)
         {
             cout << "Introduce los coeficientes de tus incognitas de grado [" << i << "] que tienes" << endl;
             // Ciclo para almacenar los coeficientes de la incognita de grado n
             for (int y = 0; y < temp; y++)
-            {                
+            {
                 double coeficientetemp = 0;
                 cout << "Incognita [" << y + 1 << "]: ";
                 cin >> coeficientetemp;
@@ -1218,30 +1230,26 @@ void derivacionFuncionEvaluada()
             // en el vector principal "incognitasYSusCoeficientes"
             incognitasYSusCoeficientes.push_back(vectortemp);
         }
-        else if (temp<0)
+        else if (temp < 0)
         {
             throw invalid_argument("!!! ERROR: No puede haber cantidad de incognitas negativas. !!!");
         }
-        
-        
     }
 
-    double temp=0;
+    double temp = 0;
 
-    for (int i = 0; i<incognitasYSusCoeficientes.size(); i++)
+    for (int i = 0; i < incognitasYSusCoeficientes.size(); i++)
     {
-        for (int y = 0; y<incognitasYSusCoeficientes.at(i).size(); y++)
+        for (int y = 0; y < incognitasYSusCoeficientes.at(i).size(); y++)
         {
-            temp+=incognitasYSusCoeficientes.at(i).size();
+            temp += incognitasYSusCoeficientes.at(i).size();
         }
-        
     }
-    
-    if (temp==0)
+
+    if (temp == 0)
     {
         throw invalid_argument("!!! ERROR: No hay nada que calcular !!!");
     }
-    
 
     /*
     cout << incognitasYSusCoeficientes.size() << endl;
