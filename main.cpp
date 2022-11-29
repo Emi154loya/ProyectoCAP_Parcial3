@@ -15,7 +15,6 @@
 #include <cmath>
 #include <math.h>
 #include <vector>
-#include <future>
 #include <mutex>
 
 using namespace std;
